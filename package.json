@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "lint": "eslint **/*.js --no-error-on-unmatched-pattern",
-    "lint:fix": "eslint **/*.js --fix",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
-    "format": "stylelint **/*.css",
-    "format:fix": "stylelint **/*.css --fix"
+    "lint": "eslint **/*.js --no-error-on-unmatched-pattern --ignore-path .gitignore",
+    "lint:fix": "eslint **/*.js --fix --ignore-path .gitignore",
+    "stylelint": "stylelint **/*.css --ignore-path .gitignore",
+    "stylelint:fix": "stylelint **/*.css --fix --ignore-path .gitignore",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
   },
   "lint-staged": {
     "*.{js,ts,html}": [
