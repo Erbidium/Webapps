@@ -50,7 +50,7 @@
 			showSpinner = false;
 		}catch(e){
 			if(e.status >= 500){
-				errorText = 'Email doesn`t exist';
+				errorText = "Server error";
 			}
 			else if(e.status === 400)
 			{
