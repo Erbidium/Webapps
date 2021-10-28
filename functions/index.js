@@ -32,7 +32,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
   const now = new Date();
 
   if (rateLimit.ipCache.get(reqIp)===undefined) {
-    rateLimit.ipCache.set(reqIp, {reqCount: 1, time: now});
+    rateLimit.ipCache.set(reqIp, {reqCount: 0, time: now});
   } else {
     ipUser = rateLimit.ipCache.get(reqIp);
     functions.logger.log("req number " + ipUser.reqCount);
