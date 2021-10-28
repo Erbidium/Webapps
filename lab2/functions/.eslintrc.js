@@ -7,8 +7,9 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: ["eslint:recommended", "google"],
+  extends: ["eslint:recommended", "google", "plugin:sonarjs/recommended"],
   rules: {
     quotes: ["error", "double"],
   },
+  plugins: ["sonarjs"],
 };

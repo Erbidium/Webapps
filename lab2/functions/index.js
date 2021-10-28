@@ -47,8 +47,6 @@ exports.sendMail = functions.https.onRequest((req, res) => {
   ipUser.time = new Date();
   rateLimit.ipCache.set(reqIp, ipUser);
 
-  res.send("Hello from Firebase!");
-
   if (!Object.keys(req.body ? req.body : {} === req.body ?? {})) {
     return res.status(400).json({code: 400, error: "No message!"});
   }
