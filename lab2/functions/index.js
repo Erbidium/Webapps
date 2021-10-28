@@ -33,19 +33,17 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     rateLimit.ipCache.set(reqIp, {reqCount: 1, time: now});
   } else {
     ipUser = rateLimit.ipCache.get(reqIp);
-    ipUser.reqCount+=1;
-    rateLimit.ipCache.set(reqIp, ipUser);
     functions.logger.log("req number " + ipUser.reqCount);
     functions.logger.log("current time" + (now - ipUser.time));
-    if ((ipUser.reqCount > rateLimit.callLimitForOneIp)||
+    if ((ipUser.reqCount + 1 > rateLimit.callLimitForOneIp)||
         (now - ipUser.time <= rateLimit.timeInSeconds * 1000)) {
       return res.status(429)
           .json({code: "429", error: "Too many requests!"});
     }
   }
   ipUser = rateLimit.ipCache.get(reqIp);
+  ipUser.reqCount+=1;
   ipUser.time = new Date();
-  rateLimit.ipCache.set(reqIp, ipUser);
 
   if (!Object.keys(req.body ?? {})) {
     return res.status(400).json({code: 400, error: "No message!"});
