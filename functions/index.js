@@ -35,7 +35,6 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     rateLimit.ipCache.set(reqIp, {reqCount: 0, time: now});
   } else {
     ipUser = rateLimit.ipCache.get(reqIp);
-    functions.logger.log("req number " + ipUser.reqCount);
     functions.logger.log("current time" + (now - ipUser.time));
     if ((ipUser.reqCount + 1 > rateLimit.callLimitForOneIp)||
         (now - ipUser.time <= rateLimit.timeInSeconds * 1000)) {
@@ -45,6 +44,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
   }
   ipUser = rateLimit.ipCache.get(reqIp);
   ipUser.reqCount+=1;
+  functions.logger.log("req number " + ipUser.reqCount);
   ipUser.time = new Date();
 
   if (!Object.keys(req.body ?? {})) {
