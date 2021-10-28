@@ -16,7 +16,7 @@ if (mailCredentials !== undefined) {
     },
   });
 } else {
-  console.log("mailCredentials is undefined");
+  functions.logger.log("mailCredentials is undefined");
 }
 
 const rateLimit = {
@@ -35,8 +35,8 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     ipUser = rateLimit.ipCache.get(reqIp);
     ipUser.reqCount+=1;
     rateLimit.ipCache.set(reqIp, ipUser);
-    console.log("req number " + ipUser.reqCount);
-    console.log("current time" + (now - ipUser.time));
+    functions.logger.log("req number " + ipUser.reqCount);
+    functions.logger.log("current time" + (now - ipUser.time));
     if ((ipUser.reqCount > rateLimit.callLimitForOneIp)||
         (now - ipUser.time <= rateLimit.timeInSeconds * 1000)) {
       return res.status(429)
