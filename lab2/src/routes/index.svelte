@@ -19,17 +19,17 @@
     formBtnDisable = false;
   }
   let contactFormHandler = async e => {
+    statusMessage = false;
+    errorMessage = false;
     formBtnDisable = true;
     showSpinner = true;
 
-    const referrerValue = document.referrer;
-
-    let formData = {
-      'User name': form.elements.userName.value,
-      Email: form.elements.userEmail.value,
-      Message: form.elements.userMessage.value,
-      referrer: referrerValue,
-    };
+    let formData = {};
+    Array.from(form.elements).forEach(element => {
+      const key = element.name;
+      formData[key] = element.value;
+    });
+    formData['referrer'] = document.referrer;
     try {
       await fetch('/api/sendMail', {
         method: 'POST',
@@ -38,12 +38,13 @@
         },
         body: JSON.stringify(formData),
       }).then(res => {
-        if (res.status >= 200 && res.status < 300) {
+        if (res.ok) {
           return res;
-        } else {
-          throw res;
         }
+        throw res;
       });
+      statusMessage = true;
+      form.reset();
     } catch (e) {
       if (e.status >= 500) {
         errorText = 'Server error';
@@ -52,13 +53,10 @@
       } else if (e.status === 429) {
         errorText = 'You sent mail too many times';
       }
+      errorMessage = true;
       console.log(e);
     } finally {
       showSpinner = false;
-      formBtnDisable = false;
-      statusMessage = false;
-      errorMessage = true;
-      form.reset();
     }
   };
 </script>
