@@ -19,4 +19,3 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB2_80C36 }}'
           projectId: lab2-80c36
-          entryPoint: ./lab2
