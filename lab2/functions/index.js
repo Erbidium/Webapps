@@ -37,8 +37,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
 
   functions.logger.log("current time" + (now - ipUser.time));
   if (
-    ipUser.reqCount + 1 > rateLimit.callLimitForOneIp ||
-		now - ipUser.time <= rateLimit.timeInSeconds * 1000
+    ipUser.reqCount + 1 > rateLimit.callLimitForOneIp || now - ipUser.time <= rateLimit.timeInSeconds * 1000
   ) {
     return res.status(429).json({code: "429", error: "Too many requests!"});
   }

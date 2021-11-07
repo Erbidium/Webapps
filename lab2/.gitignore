@@ -1,5 +1,13 @@
 /node_modules
+/.svelte-kit
 /.idea
+.firebase
+.DS_Store
+node_modules
+/build
+/package
+*.cache
+.runtimeconfig.json
 
 # Logs
 logs
