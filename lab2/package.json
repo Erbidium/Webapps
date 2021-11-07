@@ -10,7 +10,7 @@
     "format": "prettier --check . --ignore-path .gitignore",
     "format:fix": "prettier --write . --ignore-path .gitignore",
     "stylelint": "stylelint **/*.scss --ignore-path .gitignore",
-    "stylelint:fix": "stylelint **/*.scss --fix --ignore-path .gitignore",
+    "stylelint:fix": "stylelint **/*.scss --fix --ignore-path .gitignore"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^1.0.0-next.21",
