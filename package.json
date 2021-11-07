@@ -20,8 +20,9 @@
       "eslint **/*.js"
     ],
     "*.css": [
-      "stylelint **/*.scss"
-    ]
+      "stylelint **/*.css"
+    ],
+    "*.js": "eslint --cache --fix"
   },
   "author": "",
   "license": "ISC",
