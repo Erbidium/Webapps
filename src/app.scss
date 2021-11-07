@@ -8,7 +8,7 @@
 	--font-mono: 'Fira Mono', monospace;
 	--pure-white: #ffffff;
 	--primary-color: #cdded0;
-	--secondary-color:  #cdded0;
+	--secondary-color: #cdded0;
 	--tertiary-color: paleturquoise;
 	--accent-color: #ff3e00;
 	--heading-color: rgba(0, 0, 0, 0.7);
@@ -123,15 +123,15 @@ button:focus:not(:focus-visible) {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		input, textarea{
+		input,
+		textarea {
 			display: block;
 			font-family: inherit;
 			font-size: inherit;
 			width: 100%;
 			margin-bottom: 15px;
 		}
-		textarea
-		{
+		textarea {
 			resize: none;
 		}
 		p {
@@ -139,9 +139,8 @@ button:focus:not(:focus-visible) {
 			font-weight: normal;
 			line-height: 1.5;
 		}
-		button{
+		button {
 			padding: 5px 10px;
 		}
-
 	}
 }

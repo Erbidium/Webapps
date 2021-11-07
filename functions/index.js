@@ -8,42 +8,42 @@ const rateLimit = {
   ipCache: new Map(),
 };
 
-exports.sendMail = functions.https.onRequest((req, res) => {
-  let transporter = null;
-  const mailCredentials = functions.config().form;
+const mailCredentials = functions.config().form;
+let transporter = null;
 
-  if (mailCredentials) {
-    transporter = nodemailer.createTransport({
-      host: mailCredentials.hosting,
-      port: mailCredentials.port,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: mailCredentials.mailgunadress,
-        pass: mailCredentials.mailgunpass,
-      },
-    });
-  } else {
-    return res.status(500).json({code: "500",
-      error: "Mail credentials are undefined"});
+if (mailCredentials) {
+  transporter = nodemailer.createTransport({
+    host: mailCredentials.hosting,
+    port: mailCredentials.port,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: mailCredentials.mailgunadress,
+      pass: mailCredentials.mailgunpass,
+    },
+  });
+}
+
+exports.sendMail = functions.https.onRequest((req, res) => {
+  if (!transporter) {
+    return res.status(500).json({code: "500", error: "Mail credentials are undefined"});
   }
 
   const reqIp = req.headers["fastly-client-ip"];
   let ipUser = {};
   const now = new Date();
 
-  if (rateLimit.ipCache.get(reqIp)===undefined) {
-    rateLimit.ipCache.set(reqIp, {reqCount: 0, time: now});
-  } else {
-    ipUser = rateLimit.ipCache.get(reqIp);
-    functions.logger.log("current time" + (now - ipUser.time));
-    if ((ipUser.reqCount + 1 > rateLimit.callLimitForOneIp)||
-        (now - ipUser.time <= rateLimit.timeInSeconds * 1000)) {
-      return res.status(429)
-          .json({code: "429", error: "Too many requests!"});
-    }
+  ipUser = rateLimit.ipCache.get(reqIp);
+  if (!ipUser) rateLimit.ipCache.set(reqIp, {reqCount: 0, time: now});
+
+  functions.logger.log("current time" + (now - ipUser.time));
+  if (
+    ipUser.reqCount + 1 > rateLimit.callLimitForOneIp ||
+		now - ipUser.time <= rateLimit.timeInSeconds * 1000
+  ) {
+    return res.status(429).json({code: "429", error: "Too many requests!"});
   }
   ipUser = rateLimit.ipCache.get(reqIp);
-  ipUser.reqCount+=1;
+  ipUser.reqCount += 1;
   functions.logger.log("req number " + ipUser.reqCount);
   ipUser.time = new Date();
 
@@ -57,15 +57,15 @@ exports.sendMail = functions.https.onRequest((req, res) => {
   const html = `<p><b>Message from contact form:</b>${lines}</p>`;
   const htmlSan = sanitizeHtml(html);
 
-  const mailOptions={
+  const mailOptions = {
     from: `Contact form <${mailCredentials.mailgunadress}>`,
     to: functions.config().form.mailadressto,
     subject: "Message contact form", // Subject line,
-    date: (new Date()).toUTCString(),
+    date: new Date().toUTCString(),
     html: htmlSan, // html body
   };
 
-  transporter.sendMail(mailOptions, (error)=>{
+  transporter.sendMail(mailOptions, (error) => {
     if (error) {
       console.error("Error sending mail", error.message);
       return res.status(500).json({code: "500", error: error.message});

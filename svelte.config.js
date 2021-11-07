@@ -1,6 +1,6 @@
 import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-static';
-import {sendMail} from "./functions/index.js";
+import { sendMail } from './functions/index.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -28,11 +28,10 @@ const config = {
 						target: 'http://localhost:5001/lab2-80c36/us-central1/sendMail',
 						changeOrigin: true,
 						secure: false,
-						rewrite:(path => path.replace(/^\/api/, ''))
+						rewrite: (path) => path.replace(/^\/api/, '')
 					}
 				}
 			}
-
 		}
 	},
 
