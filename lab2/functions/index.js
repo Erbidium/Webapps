@@ -32,13 +32,12 @@ exports.sendMail = functions.https.onRequest((req, res) => {
 
 	const reqIp = req.headers['fastly-client-ip'];
 
-	let ipUser = rateLimit.ipCache.get(reqIp);
 	const now = new Date();
+	let ipUser = rateLimit.ipCache.get(reqIp) ?? {
+		reqCount: 0,
+		time: now - rateLimit.timeInSeconds * 1000,
+	};
 
-	if (!ipUser) {
-		ipUser = { reqCount: 0, time: now - rateLimit.timeInSeconds * 1000 };
-		rateLimit.ipCache.set(reqIp, ipUser);
-	}
 	functions.logger.log('current time: ' + (now - ipUser.time));
 	functions.logger.log('requests count: ' + ipUser.reqCount);
 	if (
@@ -49,15 +48,16 @@ exports.sendMail = functions.https.onRequest((req, res) => {
 	}
 	ipUser.reqCount += 1;
 	ipUser.time = new Date();
+	rateLimit.ipCache.set(reqIp, ipUser);
 
 	if (!Object.keys(req.body ?? {})) {
 		return res.status(400).json({ code: 400, error: 'No message!' });
 	}
 
-	const lines = Object.entries(req.body)
+	let lines = Object.entries(req.body)
 		.map(([key, val]) => `<p><b>${key}: </b>${val}</p>`)
 		.join('\n');
-	const html = `<p><b>Message from contact form:</b>${lines}</p>`;
+	let html = `<p><b>Message from contact form:</b>${lines}</p>`;
 	const htmlSan = sanitizeHtml(html);
 
 	const mailOptions = {

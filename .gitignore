@@ -1,6 +1,7 @@
 /node_modules
 /.idea
-
+build/
+.svelte-kit/
 # Logs
 logs
 *.log
