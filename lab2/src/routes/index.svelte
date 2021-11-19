@@ -25,7 +25,7 @@
     showSpinner = true;
 
     let formData = {};
-    Array.from(form.elements).map((key, value) => (formData[key] = value));
+    Array.from(form.elements).map(element=>formData[element.name]=element.value);
     formData['referrer'] = document.referrer;
     try {
       await fetch('/api/sendMail', {
