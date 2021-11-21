@@ -66,10 +66,6 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 h1 {
   font-size: 2rem;
   text-align: center;
@@ -168,6 +164,39 @@ ul li:nth-child(5n)
 ul li a:hover{
   box-shadow: 10px 10px 7px rgba(0, 0, 0, .7);
   transform: scale(1.1);
+}
+
+button
+{
+  margin: 2px;
+}
+
+.btnDeleteAll
+{
+  background-color: Crimson;
+  display: inline-block;
+  width: 6em;
+  height: 3em;
+  text-align: center;
+}
+
+.btnEditSpecific
+{
+  background-color: Green;
+}
+
+.btnDeleteSpecific
+{
+  background-color: Crimson;
+}
+
+button:hover{
+  transform: scale(1.1);
+}
+
+.buttonsZone{
+  display: flex;
+  justify-content: right;
 }
 
 #svelte {
