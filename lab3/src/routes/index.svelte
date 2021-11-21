@@ -18,7 +18,7 @@ to your service.
             }
     );
 
-    return await result.json();
+    return result.json();
   }
 
   const operationsDoc = `
@@ -56,20 +56,27 @@ to your service.
 
 <svelte:head>
   <title>Home</title>
+
 </svelte:head>
 
 <div>
   {#await fetchMyQuery()}
     <p>...waiting</p>
   {:then data}
-    <p>The number is {data.data.notes.length}</p>
-    {#each data.data.notes as {author, date,  text}}
-      <p>
-        {author} - {date} - {text}
-      </p>
-    {/each}
+    <p>Totally notes: {data.data.notes.length}</p>
+    <ul>
+      {#each data.data.notes as {author, date,  text}}
+        <li>
+          <a href="#" class="note">
+            <h2><strong>Note</strong></h2>
+            <p><strong>Author: {author}</strong></p>
+            <p><strong>{text}</strong></p>
+            <p><strong>Date: {date}</strong></p>
+          </a>
+        </li>
+      {/each}
+    </ul>
   {:catch error}
     <p style="color: red">{error.message}</p>
   {/await}
 </div>
-
