@@ -1,18 +1,31 @@
 <script>
 
-  import {fetchGraphQL, startFetchMyQuery} from "$lib/api";
   /*
 This is an example snippet - you should consider tailoring it
 to your service.
 */
 
+  async function fetchGraphQL(operationsDoc, operationName, variables) {
+    const result = await fetch(
+            "https://lab3todo.herokuapp.com/v1/graphql",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                query: operationsDoc,
+                variables: variables,
+                operationName: operationName
+              })
+            }
+    );
 
+    return await result.json();
+  }
 
   const operationsDoc = `
   query MyQuery {
     notes {
-      datetime
-      id
+      author
+      date
       text
     }
   }
@@ -26,9 +39,19 @@ to your service.
     );
   }
 
+  async function startFetchMyQuery() {
+    const { errors, data } = await fetchMyQuery();
 
+    if (errors) {
+      // handle those errors like a pro
+      console.error(errors);
+    }
 
-  let res = startFetchMyQuery(fetchMyQuery);
+    // do something great with this precious data
+    console.log(data);
+  }
+
+  startFetchMyQuery();
 </script>
 
 <svelte:head>
@@ -40,9 +63,9 @@ to your service.
     <p>...waiting</p>
   {:then data}
     <p>The number is {data.data.notes.length}</p>
-    {#each data.data.notes as {datetime, text}}
+    {#each data.data.notes as {author, date,  text}}
       <p>
-        {datetime} - {text}
+        {author} - {date} - {text}
       </p>
     {/each}
   {:catch error}
