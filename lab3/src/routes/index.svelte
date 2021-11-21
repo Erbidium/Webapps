@@ -82,7 +82,7 @@
     <p>...waiting</p>
   {:then data}
     <p>Totally notes: {data.data.notes.length}</p>
-    <button on:click={startExecuteDeleteAllMutation} style="color:red">Delete all</button>
+    <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} >Delete all</button>
     <ul>
       {#each data.data.notes as {author, date,  text}}
         <li>
@@ -91,6 +91,10 @@
             <p><strong>Author: {author}</strong></p>
             <p><strong>{text}</strong></p>
             <p><strong>Date: {date}</strong></p>
+            <div class="buttonsZone">
+              <button class="btnEditSpecific">&#9998</button>
+              <button class="btnDeleteSpecific">X</button>
+            </div>
           </a>
         </li>
       {/each}
