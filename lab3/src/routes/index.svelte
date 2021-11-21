@@ -27,6 +27,12 @@
       author
       date
       text
+      id
+    }
+  }
+  mutation deleteNote($_eq: uuid) {
+    delete_notes(where: {id: {_eq: $_eq}}) {
+      affected_rows
     }
   }
 `;
@@ -46,6 +52,24 @@
             {}
     );
   }
+
+  function executeDeleteNote(_eq) {
+    return fetchGraphQL(
+            operationsDoc,
+            "deleteNote",
+            {"_eq": _eq}
+    );
+  }
+
+  async function startExecuteDeleteNote(_eq) {
+    const {errors, data} = await executeDeleteNote(_eq);
+
+    if (errors) {
+      // handle those errors like a pro
+      console.error(errors);
+    }
+  }
+
 
   async function startFetchMyQuery() {
     const { errors, data } = await fetchMyQuery();
@@ -69,6 +93,11 @@
     // do something great with this precious data
     console.log(data);
   }
+
+  function onDelete (event) {
+    const targetElement = event.target;
+    startExecuteDeleteNote(targetElement.id);
+  }
   startFetchMyQuery();
 </script>
 
@@ -84,7 +113,7 @@
     <p>Totally notes: {data.data.notes.length}</p>
     <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} >Delete all</button>
     <ul>
-      {#each data.data.notes as {author, date,  text}}
+      {#each data.data.notes as {author, date,  text, id}}
         <li>
           <a href="#" class="note">
             <h2><strong>Note</strong></h2>
@@ -93,7 +122,7 @@
             <p><strong>Date: {date}</strong></p>
             <div class="buttonsZone">
               <button class="btnEditSpecific">&#9998</button>
-              <button class="btnDeleteSpecific">X</button>
+              <button class="btnDeleteSpecific" id="{id}" on:click={event => onDelete(event)}>X</button>
             </div>
           </a>
         </li>
