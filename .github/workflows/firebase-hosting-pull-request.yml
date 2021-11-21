@@ -14,10 +14,10 @@ jobs:
           node-version: '16'
           cache: 'npm'
       - run: npm ci && npm run build
-        working-directory: lab2
+        working-directory: lab3
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB2_80C36 }}'
-          projectId: lab2-80c36
-          entryPoint: ./lab2
+          projectId: lab2-80c36;;;;;;;
+          entryPoint: ./lab3
