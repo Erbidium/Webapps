@@ -1,10 +1,5 @@
 <script>
 
-  /*
-This is an example snippet - you should consider tailoring it
-to your service.
-*/
-
   async function fetchGraphQL(operationsDoc, operationName, variables) {
     const result = await fetch(
             "https://lab3todo.herokuapp.com/v1/graphql",
@@ -22,7 +17,12 @@ to your service.
   }
 
   const operationsDoc = `
-  query MyQuery {
+  mutation deleteAllMutation {
+    delete_notes(where: {}) {
+      affected_rows
+    }
+  }
+  query getDataQuery {
     notes {
       author
       date
@@ -34,7 +34,15 @@ to your service.
   function fetchMyQuery() {
     return fetchGraphQL(
             operationsDoc,
-            "MyQuery",
+            "getDataQuery",
+            {}
+    );
+  }
+
+  function executeDeleteAllMutation() {
+    return fetchGraphQL(
+            operationsDoc,
+            "deleteAllMutation",
             {}
     );
   }
@@ -50,7 +58,17 @@ to your service.
     // do something great with this precious data
     console.log(data);
   }
+  async function startExecuteDeleteAllMutation() {
+    const { errors, data } = await executeDeleteAllMutation();
 
+    if (errors) {
+      // handle those errors like a pro
+      console.error(errors);
+    }
+    console.log("Hello");
+    // do something great with this precious data
+    console.log(data);
+  }
   startFetchMyQuery();
 </script>
 
@@ -64,6 +82,7 @@ to your service.
     <p>...waiting</p>
   {:then data}
     <p>Totally notes: {data.data.notes.length}</p>
+    <button on:click={startExecuteDeleteAllMutation} style="color:red">Delete all</button>
     <ul>
       {#each data.data.notes as {author, date,  text}}
         <li>
