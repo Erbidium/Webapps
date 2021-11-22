@@ -25,23 +25,25 @@
     showSpinner = true;
 
     let formData = {};
-    Array.from(form.elements).forEach(element => formData[element.name] = element.value);
+    Array.from(form.elements).forEach(
+      element => (formData[element.name] = element.value)
+    );
     formData['referrer'] = document.referrer;
     try {
-      await fetch('/api/sendMail', {
+      let response = await fetch('/api/sendMail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      }).then(res => {
-        if (res.ok) {
-          form.reset();
-          statusMessage = true;
-          return res;
-        }
-        throw res;
       });
+
+      if (!response.ok) {
+        throw response;
+      }
+      form.reset();
+      statusMessage = true;
+      return response;
     } catch (e) {
       if (e.status >= 500) {
         errorText = 'Server error';
