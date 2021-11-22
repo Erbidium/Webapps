@@ -13,7 +13,6 @@
               })
             }
     );
-
     return result.json();
   }
 
@@ -33,6 +32,11 @@
   }
   mutation deleteNote($_eq: uuid) {
     delete_notes(where: {id: {_eq: $_eq}}) {
+      affected_rows
+    }
+  }
+  mutation createNote($date: date = "", $author: String = "", $text: String = "") {
+    insert_notes(objects: {author: $author, date: $date, text: $text}){
       affected_rows
     }
   }
@@ -59,6 +63,14 @@
             operationsDoc,
             "deleteNote",
             {"_eq": _eq}
+    );
+  }
+
+  function executeCreateNote(date, author, text) {
+    return fetchGraphQL(
+            operationsDoc,
+            "createNote",
+            {"date": date, "author": author, "text": text}
     );
   }
 
@@ -95,22 +107,47 @@
     console.log(data);
   }
 
+  async function startExecuteCreateNote(date, author, text) {
+    const { errors, data } = await executeCreateNote(date, author, text);
+
+    if (errors) {
+      // handle those errors like a pro
+      console.error(errors);
+    }
+
+    // do something great with this precious data
+    console.log(data);
+  }
+
   function onDelete (event) {
     const targetElement = event.target;
     startExecuteDeleteNote(targetElement.id);
   }
   let checkIcon;
   let xIcon;
+  let inputNote;
+  let isDisabled="visible";
 
   function typeNote()
   {
+    if(isDisabled==="hidden")
+    {
+      inputNote.visible=false;
+      isDisabled="visible";
+    }
+    else {
+      inputNote.visible=true;
+      isDisabled="visible";
+    }
     console.log(xIcon);
     console.log("Rejected!");
+
   }
   function createNote()
   {
     console.log(checkIcon);
     console.log("Note is created!");
+    startExecuteCreateNote("2021-11-21", "dimas", "hello");
   }
 </script>
 
@@ -125,7 +162,7 @@
   {:then data}
     <p>Totally notes: {data.data.notes.length}</p>
     <form>
-      <textarea id="note-text" placeholder="Write note..." maxlength="96">
+      <textarea id="note-text" bind:this={inputNote} placeholder="Write note..." maxlength="96">
 
       </textarea>
       <svg bind:this={checkIcon} on:click={createNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
@@ -137,7 +174,7 @@
         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
       </svg>
     </form>
-    <button class="createNote">Create note</button>
+    <button class="createNote" on:click={typeNote}>Create note</button>
     <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} >Delete all</button>
     <ul>
       {#each data.data.notes as {author, date,  text, id}}
