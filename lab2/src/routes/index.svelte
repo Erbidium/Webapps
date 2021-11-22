@@ -25,9 +25,9 @@
     showSpinner = true;
 
     let formData = {};
-    Array.from(form.elements).forEach(
-      element => (formData[element.name] = element.value)
-    );
+    Array.from(form.elements)
+      .filter(el => el.tagName !== 'BUTTON')
+      .forEach(element => (formData[element.name] = element.value));
     formData['referrer'] = document.referrer;
     try {
       let response = await fetch('/api/sendMail', {
