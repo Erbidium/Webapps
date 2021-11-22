@@ -120,7 +120,7 @@ button:focus:not(:focus-visible) {
   }
 }
 
-.note
+.note, textarea
 {
   height: 10em;
   width: 10em;
@@ -131,6 +131,17 @@ button:focus:not(:focus-visible) {
   border-left: 6px solid gray;
   border-radius: 0 10px 10px 0;
   box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+}
+
+textarea
+{
+  resize: none;
+}
+
+#check-icon
+{
+  position: relative;
+  top:10%;
 }
 
 ul li:nth-child(even)
@@ -169,6 +180,15 @@ ul li a:hover{
 button
 {
   margin: 2px;
+}
+
+.createNote
+{
+  background-color: Green;
+  display: inline-block;
+  width: 6em;
+  height: 3em;
+  text-align: center;
 }
 
 .btnDeleteAll
