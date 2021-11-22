@@ -46,7 +46,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
 	) {
 		return res.status(429).json({ code: '429', error: 'Too many requests!' });
 	}
-	ipUser.reqCount += 1;
+	ipUser.reqCount++;
 	ipUser.time = new Date();
 	rateLimit.ipCache.set(reqIp, ipUser);
 
@@ -62,7 +62,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
 
 	const mailOptions = {
 		from: `Contact form <${mailCredentials.mailgunadress}>`,
-		to: functions.config().form.mailadressto,
+		to: mailCredentials.mailadressto,
 		subject: 'Message contact form', // Subject line,
 		date: new Date().toUTCString(),
 		html: htmlSan, // html body
