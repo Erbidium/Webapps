@@ -81,16 +81,21 @@
       // handle those errors like a pro
       console.error(errors);
     }
+    await startFetchMyQuery();
   }
 
 
   async function startFetchMyQuery() {
     const { errors, data } = await fetchMyQuery();
-
+    errorOccured=false;
     if (errors) {
       // handle those errors like a pro
       console.error(errors);
+      error=errors;
+      errorOccured=true;
     }
+    notes=data.notes;
+    console.log(notes);
 
     // do something great with this precious data
     console.log(data);
@@ -102,6 +107,7 @@
       // handle those errors like a pro
       console.error(errors);
     }
+    await startFetchMyQuery();
     console.log("Hello");
     // do something great with this precious data
     console.log(data);
@@ -114,7 +120,7 @@
       // handle those errors like a pro
       console.error(errors);
     }
-
+    await startFetchMyQuery();
     // do something great with this precious data
     console.log(data);
   }
@@ -127,6 +133,8 @@
   let xIcon;
   let inputNote;
   let isDisabled="visible";
+  let errorOccured =false;
+  let error;
 
   function typeNote()
   {
@@ -149,6 +157,11 @@
     console.log("Note is created!");
     startExecuteCreateNote("2021-11-21", "dimas", "hello");
   }
+  let notes;
+  onMount(async()=>{
+    await startFetchMyQuery()
+  })
+
 </script>
 
 <svelte:head>
@@ -157,10 +170,12 @@
 </svelte:head>
 
 <div>
-  {#await fetchMyQuery()}
+  {#if !notes}
     <p>...waiting</p>
-  {:then data}
-    <p>Totally notes: {data.data.notes.length}</p>
+  {:else if errorOccured===true}
+    <p style="color: red">{error}</p>
+  {:else}
+    <p>Totally notes: {notes.length}</p>
     <form>
       <textarea id="note-text" bind:this={inputNote} placeholder="Write note..." maxlength="96">
 
@@ -177,7 +192,7 @@
     <button class="createNote" on:click={typeNote}>Create note</button>
     <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} >Delete all</button>
     <ul>
-      {#each data.data.notes as {author, date,  text, id}}
+      {#each notes as {author, date,  text, id}}
         <li>
           <a href="#" class="note">
             <h2><strong>Note</strong></h2>
@@ -192,7 +207,5 @@
         </li>
       {/each}
     </ul>
-  {:catch error}
-    <p style="color: red">{error.message}</p>
-  {/await}
+  {/if}
 </div>
