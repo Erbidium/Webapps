@@ -1,9 +1,51 @@
+<script context="module">
+  export const ssr = false;
+</script>
 <script>
+  import { createClient, defaultExchanges, subscriptionExchange } from '@urql/core';
+  import { createClient as createWSClient } from 'graphql-ws';
+  import { setClient, operationStore, subscription } from '@urql/svelte';
+
+  const wsClient = createWSClient({
+    url: 'ws://lab3todov2.herokuapp.com/v1/graphql',
+  });
+
+  const client = createClient({
+    url: 'https://lab3todov2.herokuapp.com/v1/graphql',
+    exchanges: [
+      ...defaultExchanges,
+      subscriptionExchange({
+        forwardSubscription: (operation) => ({
+          subscribe: (sink) => ({
+            unsubscribe: wsClient.subscribe(operation, sink),
+          }),
+        }),
+      }),
+    ],
+  });
+
+  const messages = operationStore(`
+    subscription MySubscription {
+    notes {
+      author
+      date
+      id
+      text
+    }
+  }
+  `);
+  setClient(client);
+  const handleSubscription = (messages = [], data) => {
+    console.log([...data.notes]);
+    return [data.notes, ...messages];
+  };
+
+  subscription(messages, handleSubscription);
 
   import {onMount} from "svelte";
   async function fetchGraphQL(operationsDoc, operationName, variables) {
     const result = await fetch(
-            "https://lab3todo.herokuapp.com/v1/graphql",
+            "https://lab3todov2.herokuapp.com/v1/graphql",
             {
               method: "POST",
               body: JSON.stringify({
