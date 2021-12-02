@@ -1,6 +1,7 @@
 <script context="module">
   export const ssr = false;
 </script>
+
 <script>
   import { createClient, defaultExchanges, subscriptionExchange } from '@urql/core';
   import { createClient as createWSClient } from 'graphql-ws';
@@ -35,9 +36,10 @@
   }
   `);
   setClient(client);
-  const handleSubscription = (messages = [], data) => {
-    console.log([...data.notes]);
-    return [data.notes, ...messages];
+  const handleSubscription = (messages = [], dataNotes) => {
+    console.log([...dataNotes.notes]);
+    notes=dataNotes.notes;
+    return [dataNotes.notes, ...messages];
   };
 
   subscription(messages, handleSubscription);
