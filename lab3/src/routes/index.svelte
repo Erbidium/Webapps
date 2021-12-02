@@ -8,7 +8,8 @@
   import { setClient, operationStore, subscription } from '@urql/svelte';
 
   const wsClient = createWSClient({
-    url: 'ws://lab3todov2.herokuapp.com/v1/graphql',
+    url: 'wss://lab3todov2.herokuapp.com/v1/graphql',
+    reconnect: true
   });
 
   const client = createClient({
