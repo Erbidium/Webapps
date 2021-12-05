@@ -120,6 +120,13 @@ button:focus:not(:focus-visible) {
   }
 }
 
+form{
+  z-index: 5;
+  position: absolute;
+  top:26%;
+  left:40%;
+}
+
 .note, textarea
 {
   height: 10em;
@@ -136,12 +143,27 @@ button:focus:not(:focus-visible) {
 textarea
 {
   resize: none;
+  outline: none;
+  width: 170px;
+  height: 170px;
+  padding: 40px 25px 25px 25px;
 }
 
+svg
+{
+  color: gray;
+}
 #check-icon
 {
-  position: relative;
-  top:10%;
+  position: absolute;
+  right: 17%;
+  top: 4%;
+}
+
+#x-icon{
+  position: absolute;
+  right: 5%;
+  top: 4%;
 }
 
 ul li:nth-child(even)
