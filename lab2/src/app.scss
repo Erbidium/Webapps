@@ -28,11 +28,6 @@ body {
   );
 }
 
-* {
-  margin: 0;
-  padding: 0;
-}
-
 body::before {
   content: '';
   width: 80vw;
@@ -65,6 +60,10 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 h1 {
   font-size: 2rem;
   text-align: center;
@@ -72,25 +71,6 @@ h1 {
 
 h2 {
   font-size: 1rem;
-}
-
-ul,
-li {
-  list-style: none;
-}
-
-ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-}
-
-ul li {
-  margin: 1em;
-}
-
-ul li a {
-  text-decoration: none;
 }
 
 pre {
@@ -118,115 +98,6 @@ button:focus:not(:focus-visible) {
   h1 {
     font-size: 2.4rem;
   }
-}
-
-form {
-  z-index: 5;
-  position: absolute;
-  top: 26%;
-  left: 40%;
-}
-
-.note,
-textarea {
-  height: 10em;
-  width: 10em;
-  padding: 1em;
-  display: block;
-  margin-bottom: 15px;
-  background-color: #ffdb58;
-  border-left: 6px solid gray;
-  border-radius: 0 10px 10px 0;
-  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
-}
-
-textarea {
-  resize: none;
-  outline: none;
-  width: 170px;
-  height: 170px;
-  padding: 40px 25px 25px 25px;
-}
-
-svg {
-  color: gray;
-}
-#check-icon {
-  position: absolute;
-  right: 17%;
-  top: 4%;
-}
-
-#x-icon {
-  position: absolute;
-  right: 5%;
-  top: 4%;
-}
-
-ul li:nth-child(even) {
-  transform: rotate(4deg);
-  position: relative;
-  top: 5px;
-}
-
-ul li:nth-child(odd) {
-  transform: rotate(-7deg);
-  position: relative;
-  top: 5px;
-}
-
-ul li:nth-child(3n) {
-  transform: rotate(-3deg);
-  position: relative;
-  top: -5px;
-}
-
-ul li:nth-child(5n) {
-  transform: rotate(10deg);
-  position: relative;
-  top: -10px;
-}
-
-ul li a:hover {
-  box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
-  transform: scale(1.1);
-}
-
-button {
-  margin: 2px;
-}
-
-.createNote {
-  background-color: Green;
-  display: inline-block;
-  width: 6em;
-  height: 3em;
-  text-align: center;
-}
-
-.btnDeleteAll {
-  background-color: Crimson;
-  display: inline-block;
-  width: 6em;
-  height: 3em;
-  text-align: center;
-}
-
-.btnEditSpecific {
-  background-color: Green;
-}
-
-.btnDeleteSpecific {
-  background-color: Crimson;
-}
-
-button:hover {
-  transform: scale(1.1);
-}
-
-.buttonsZone {
-  display: flex;
-  justify-content: right;
 }
 
 #svelte {
@@ -268,7 +139,6 @@ button:hover {
       text-transform: uppercase;
       font-weight: normal;
       line-height: 1.5;
-      font-size: 2rem;
     }
 
     button {
