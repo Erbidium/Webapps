@@ -8,12 +8,18 @@
   import { setClient, operationStore, subscription } from '@urql/svelte';
 
   const wsClient = createWSClient({
-    url: 'wss://lab3todov2.herokuapp.com/v1/graphql',
-    reconnect: true
+    url: 'wss://careful-bull-51.hasura.app/v1/graphql',
+    reconnect: true,
+    connectionParams: {
+      headers: {
+        'content-type': 'application/json',
+        'x-hasura-admin-secret': 'FDZgUK7Fb5LhItoVdikky17P3IAX1j6V7UmgsMqoqYf5gYlvaV0zpmoaTpr5ansc'
+      }
+    }
   });
 
   const client = createClient({
-    url: 'https://lab3todov2.herokuapp.com/v1/graphql',
+    url: 'https://careful-bull-51.hasura.app/v1/graphql',
     exchanges: [
       ...defaultExchanges,
       subscriptionExchange({
@@ -47,9 +53,11 @@
 
   import {onMount} from "svelte";
   async function fetchGraphQL(operationsDoc, operationName, variables) {
-    const result = await fetch(
-            "https://lab3todov2.herokuapp.com/v1/graphql",
-            {
+    const result = await fetch("https://careful-bull-51.hasura.app/v1/graphql", {
+              headers: {
+                'content-type': 'application/json',
+                'x-hasura-admin-secret': 'FDZgUK7Fb5LhItoVdikky17P3IAX1j6V7UmgsMqoqYf5gYlvaV0zpmoaTpr5ansc',
+              },
               method: "POST",
               body: JSON.stringify({
                 query: operationsDoc,
@@ -218,7 +226,7 @@
   {#if !notes}
     <p>...waiting</p>
   {:else if errorOccured===true}
-    <p style="color: red">{error}</p>
+    <p style="color: red">"Sorry! Error occurred"</p>
   {:else}
     <p>Totally notes: {notes.length}</p>
     <form style="--display-value: {displayValue}">
