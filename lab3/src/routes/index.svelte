@@ -184,7 +184,11 @@
   }
   let checkIcon;
   let xIcon;
+
   let inputNote;
+  let name;
+  let noteText;
+
   let isDisabled="visible";
   let errorOccured =false;
   let error;
@@ -208,7 +212,13 @@
   {
     console.log(checkIcon);
     console.log("Note is created!");
-    startExecuteCreateNote("2021-11-21", "dimasss", "hello");
+    console.log("input"+inputNote);
+
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    
+    startExecuteCreateNote(date, name.value, noteText.value);
+    inputNote.reset();
   }
   let notes;
   onMount(async()=>{
@@ -229,9 +239,9 @@
     <p style="color: red">"Sorry! Error occurred"</p>
   {:else}
     <p>Totally notes: {notes.length}</p>
-    <form style="--display-value: {displayValue}">
-      <textarea id="note-text" bind:this={inputNote} placeholder="Write note..." maxlength="96">
-
+    <form style="--display-value: {displayValue}" bind:this={inputNote}>
+      <input type="text" id = "author-text" name = "authorInput" maxlength="25" placeholder="Input your name" bind:this={name}>
+      <textarea id="note-text" placeholder="Write note..." maxlength="96" bind:this={noteText}>
       </textarea>
       <svg id="check-icon" bind:this={checkIcon} on:click={createNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
