@@ -208,7 +208,7 @@
   {
     console.log(checkIcon);
     console.log("Note is created!");
-    startExecuteCreateNote("2021-11-21", "dimas", "hello");
+    startExecuteCreateNote("2021-11-21", "dimasss", "hello");
   }
   let notes;
   onMount(async()=>{
