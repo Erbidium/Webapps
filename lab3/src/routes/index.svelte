@@ -7,6 +7,8 @@
   import { createClient as createWSClient } from 'graphql-ws';
   import { setClient, operationStore, subscription } from '@urql/svelte';
 
+  import { Jumper } from 'svelte-loading-spinners';
+
   const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
     reconnect: true,
@@ -174,6 +176,7 @@
       console.error(errors);
     }
     await startFetchMyQuery();
+    showSpinner = false;
     // do something great with this precious data
     console.log(data);
   }
@@ -188,6 +191,8 @@
   let inputNote;
   let name;
   let noteText;
+
+  let showSpinner=false;
 
   let isDisabled="visible";
   let errorOccured =false;
@@ -214,9 +219,11 @@
     console.log("Note is created!");
     console.log("input"+inputNote);
 
+    showSpinner = true;
+
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    
+
     startExecuteCreateNote(date, name.value, noteText.value);
     inputNote.reset();
   }
@@ -243,6 +250,9 @@
       <input type="text" id = "author-text" name = "authorInput" maxlength="25" placeholder="Input your name" bind:this={name}>
       <textarea id="note-text" placeholder="Write note..." maxlength="96" bind:this={noteText}>
       </textarea>
+      {#if showSpinner}
+        <Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
+      {/if}
       <svg id="check-icon" bind:this={checkIcon} on:click={createNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
         <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
