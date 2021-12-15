@@ -28,8 +28,7 @@ body {
   );
 }
 
-*
-{
+* {
   margin: 0;
   padding: 0;
 }
@@ -75,21 +74,22 @@ h2 {
   font-size: 1rem;
 }
 
-ul, li{
+ul,
+li {
   list-style: none;
 }
 
-ul{
+ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
 }
 
-ul li{
+ul li {
   margin: 1em;
 }
 
-ul li a{
+ul li a {
   text-decoration: none;
 }
 
@@ -120,28 +120,27 @@ button:focus:not(:focus-visible) {
   }
 }
 
-form{
+form {
   z-index: 5;
   position: absolute;
-  top:26%;
-  left:40%;
+  top: 26%;
+  left: 40%;
 }
 
-.note, textarea
-{
+.note,
+textarea {
   height: 10em;
   width: 10em;
   padding: 1em;
   display: block;
   margin-bottom: 15px;
-  background-color: #FFDB58;
+  background-color: #ffdb58;
   border-left: 6px solid gray;
   border-radius: 0 10px 10px 0;
-  box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
 }
 
-textarea
-{
+textarea {
   resize: none;
   outline: none;
   width: 170px;
@@ -149,63 +148,55 @@ textarea
   padding: 40px 25px 25px 25px;
 }
 
-svg
-{
+svg {
   color: gray;
 }
-#check-icon
-{
+#check-icon {
   position: absolute;
   right: 17%;
   top: 4%;
 }
 
-#x-icon{
+#x-icon {
   position: absolute;
   right: 5%;
   top: 4%;
 }
 
-ul li:nth-child(even)
-{
+ul li:nth-child(even) {
   transform: rotate(4deg);
   position: relative;
-  top:5px;
+  top: 5px;
 }
 
-ul li:nth-child(odd)
-{
+ul li:nth-child(odd) {
   transform: rotate(-7deg);
   position: relative;
-  top:5px;
+  top: 5px;
 }
 
-ul li:nth-child(3n)
-{
+ul li:nth-child(3n) {
   transform: rotate(-3deg);
   position: relative;
-  top:-5px;
+  top: -5px;
 }
 
-ul li:nth-child(5n)
-{
+ul li:nth-child(5n) {
   transform: rotate(10deg);
   position: relative;
-  top:-10px;
+  top: -10px;
 }
 
-ul li a:hover{
-  box-shadow: 10px 10px 7px rgba(0, 0, 0, .7);
+ul li a:hover {
+  box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
   transform: scale(1.1);
 }
 
-button
-{
+button {
   margin: 2px;
 }
 
-.createNote
-{
+.createNote {
   background-color: Green;
   display: inline-block;
   width: 6em;
@@ -213,8 +204,7 @@ button
   text-align: center;
 }
 
-.btnDeleteAll
-{
+.btnDeleteAll {
   background-color: Crimson;
   display: inline-block;
   width: 6em;
@@ -222,21 +212,19 @@ button
   text-align: center;
 }
 
-.btnEditSpecific
-{
+.btnEditSpecific {
   background-color: Green;
 }
 
-.btnDeleteSpecific
-{
+.btnDeleteSpecific {
   background-color: Crimson;
 }
 
-button:hover{
+button:hover {
   transform: scale(1.1);
 }
 
-.buttonsZone{
+.buttonsZone {
   display: flex;
   justify-content: right;
 }
