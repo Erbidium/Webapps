@@ -8,18 +8,18 @@
   import { setClient, operationStore, subscription } from '@urql/svelte';
 
   const wsClient = createWSClient({
-    url: 'wss://careful-bull-51.hasura.app/v1/graphql',
+    url: import.meta.env.VITE_API_WSS_ENDPOINT,
     reconnect: true,
     connectionParams: {
       headers: {
         'content-type': 'application/json',
-        'x-hasura-admin-secret': 'FDZgUK7Fb5LhItoVdikky17P3IAX1j6V7UmgsMqoqYf5gYlvaV0zpmoaTpr5ansc'
+        'x-hasura-admin-secret': import.meta.env.VITE_HASURA_ADMIN
       }
     }
   });
 
   const client = createClient({
-    url: 'https://careful-bull-51.hasura.app/v1/graphql',
+    url: import.meta.env.VITE_API_HTTPS_ENDPOINT,
     exchanges: [
       ...defaultExchanges,
       subscriptionExchange({
@@ -53,10 +53,10 @@
 
   import {onMount} from "svelte";
   async function fetchGraphQL(operationsDoc, operationName, variables) {
-    const result = await fetch("https://careful-bull-51.hasura.app/v1/graphql", {
+    const result = await fetch(import.meta.env.VITE_API_HTTPS_ENDPOINT, {
               headers: {
                 'content-type': 'application/json',
-                'x-hasura-admin-secret': 'FDZgUK7Fb5LhItoVdikky17P3IAX1j6V7UmgsMqoqYf5gYlvaV0zpmoaTpr5ansc',
+                'x-hasura-admin-secret': import.meta.env.VITE_HASURA_ADMIN,
               },
               method: "POST",
               body: JSON.stringify({
