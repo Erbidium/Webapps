@@ -186,6 +186,15 @@
     console.log(data);
   }
 
+  function errorHandle(errors) {
+    if (errors?.message === 'hasura cloud limit of 60 requests/minute exceeded') {
+      alert('Too many requests. Try later');
+      return true;
+    }
+    alert('Server Error');
+    return true;
+  }
+
   async function startExecuteCreateNote(date, author, text) {
     const { errors, data } = await executeCreateNote(date, author, text);
 
