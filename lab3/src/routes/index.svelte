@@ -51,6 +51,7 @@
 
     formBtnDisable=false;
     showSpinner=false;
+    showSpinnerNotes=false;
 
     return [dataNotes.notes, ...messages];
   };
@@ -134,6 +135,8 @@
   }
 
   async function startExecuteDeleteNote(_eq) {
+    showSpinnerNotes=true;
+    formBtnDisable=true;
     const {errors, data} = await executeDeleteNote(_eq);
 
     if (errors) {
@@ -141,6 +144,8 @@
       console.error(errors);
     }
     await startFetchMyQuery();
+    formBtnDisable=false;
+    showSpinnerNotes=false;
   }
 
 
@@ -160,6 +165,8 @@
     console.log(data);
   }
   async function startExecuteDeleteAllMutation() {
+    showSpinnerNotes=true;
+    formBtnDisable=true;
     const { errors, data } = await executeDeleteAllMutation();
 
     if (errors) {
@@ -167,6 +174,9 @@
       console.error(errors);
     }
     await startFetchMyQuery();
+    showSpinnerNotes=false;
+    formBtnDisable=false;
+
     console.log("Hello");
     // do something great with this precious data
     console.log(data);
@@ -200,6 +210,8 @@
   let formBtnDisable = false;
 
   let showSpinner=false;
+
+  let showSpinnerNotes=false;
 
   let isDisabled="visible";
   let errorOccured =false;
@@ -270,25 +282,30 @@
           <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
         </svg>
       </form>
-      <button class="createNote" on:click={typeNote}>Create note</button>
-      <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} >Delete all</button>
+      <button class="createNote" on:click={typeNote} disabled={formBtnDisable}>Create note</button>
+      <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} disabled={formBtnDisable}>Delete all</button>
     {/if}
-    <ul>
-      {#each notes as {author, date,  text, id}}
-        <li>
-          <a href="#" class="note">
-            <h2><strong>Note</strong></h2>
-            <p><strong>Author: {author}</strong></p>
-            <p><strong>{text}</strong></p>
-            <p><strong>Date: {date}</strong></p>
-            <div class="buttonsZone">
-              <button class="btnEditSpecific" disabled="{formBtnDisable}">&#9998</button>
-              <button class="btnDeleteSpecific" id="{id}" on:click={event => onDelete(event)} disabled="{formBtnDisable}">X</button>
-            </div>
-          </a>
-        </li>
-      {/each}
-    </ul>
+    {#if showSpinnerNotes}
+      <Circle3 size="60" unit="px" duration="1s"/>
+    {:else}
+      <ul>
+        {#each notes as {author, date,  text, id}}
+          <li>
+            <a href="#" class="note">
+              <h2><strong>Note</strong></h2>
+              <p><strong>Author: {author}</strong></p>
+              <p><strong>{text}</strong></p>
+              <p><strong>Date: {date}</strong></p>
+              <div class="buttonsZone">
+                <button class="btnEditSpecific" disabled={formBtnDisable}>&#9998</button>
+                <button class="btnDeleteSpecific" id="{id}" on:click={event => onDelete(event)} disabled={formBtnDisable}>X</button>
+              </div>
+            </a>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+
   {/if}
 </div>
 
