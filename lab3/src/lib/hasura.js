@@ -40,22 +40,6 @@ const operationsDoc = `
   }
 `;
 
-export function fetchMyQuery() {
-	return fetchGraphQL(operationsDoc, 'getDataQuery', {});
-}
-
-export function executeDeleteAllMutation() {
-	return fetchGraphQL(operationsDoc, 'deleteAllMutation', {});
-}
-
-export function executeDeleteNote(_eq) {
-	return fetchGraphQL(operationsDoc, 'deleteNote', { _eq: _eq });
-}
-
-export function executeCreateNote(date, author, text) {
-	return fetchGraphQL(operationsDoc, 'createNote', {
-		date: date,
-		author: author,
-		text: text,
-	});
+export function doQuery(operationName, variables) {
+	return fetchGraphQL(operationsDoc, operationName, variables);
 }
