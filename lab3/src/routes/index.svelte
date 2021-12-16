@@ -7,7 +7,9 @@
   import { createClient as createWSClient } from 'graphql-ws';
   import { setClient, operationStore, subscription } from '@urql/svelte';
 
-  import { Circle3 } from 'svelte-loading-spinners'
+  import { Circle3 } from 'svelte-loading-spinners';
+
+  import PopUp from "./PopUp.svelte";
 
   const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
@@ -195,10 +197,12 @@
     showSpinnerNotes=false;
     formBtnDisable=false;
     if (errors?.message === 'hasura cloud limit of 60 requests/minute exceeded') {
-      alert('Too many requests. Try later');
+      popUpMessage='Too many requests. Try later';
+      setTimeout(() => popUpMessage = '', 2000);
       return true;
     }
-    alert('Server Error');
+    popUpMessage='Server Error';
+    setTimeout(() => popUpMessage = '', 2000);
     return true;
   }
 
@@ -278,7 +282,9 @@
   let notes;
   onMount(async()=>{
     startFetchMyQuery().then(()=>{showSpinnerNotes=false;showSpinner=false;}).catch(()=>{errorHandle();errorOccured=true;})
-  })
+  });
+
+  let popUpMessage;
 
 </script>
 
@@ -287,6 +293,9 @@
 
 </svelte:head>
 <div>
+  {#if popUpMessage}
+  <PopUp {popUpMessage}/>
+  {/if}
   {#if errorOccured}
     <p style="color: red">"Sorry! Error occurred"</p>
   {:else if !notes}
