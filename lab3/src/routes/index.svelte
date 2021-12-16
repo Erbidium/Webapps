@@ -175,11 +175,7 @@
   }
 
   function typeNote() {
-    if (displayValue !== 'none') {
-      displayValue = 'none';
-    } else {
-      displayValue = 'flex';
-    }
+    displayValue=(displayValue !== 'none')?'none':'flex';
   }
   function createNote() {
     showSpinner = true;
