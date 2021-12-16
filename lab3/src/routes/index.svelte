@@ -141,7 +141,6 @@
     const {errors, data} = await executeDeleteNote(_eq);
 
     if (errors) {
-      // handle those errors like a pro
       console.error(errors);
 
       errorHandle(errors);
@@ -158,7 +157,6 @@
     errorOccured=false;
     const { errors, data } = await fetchMyQuery();
     if (errors) {
-      // handle those errors like a pro
       console.error(errors);
       errorOccured=true;
       errorHandle(errors);
