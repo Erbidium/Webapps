@@ -279,7 +279,7 @@
   }
   let notes;
   onMount(async()=>{
-    startFetchMyQuery().catch(()=>errorHandle())
+    startFetchMyQuery().then(()=>{showSpinnerNotes=false;showSpinner=false}).catch(()=>errorHandle())
   })
 
 </script>
