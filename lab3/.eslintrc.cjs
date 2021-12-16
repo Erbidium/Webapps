@@ -13,6 +13,11 @@ module.exports = {
     ecmaVersion: 2021,
   },
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
   },
 };
