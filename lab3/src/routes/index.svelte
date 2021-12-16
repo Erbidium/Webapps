@@ -168,7 +168,6 @@
   let formBtnDisable = false;
 
   let showSpinner = false;
-
   let showSpinnerNotes = false;
 
   let errorOccured = false;
