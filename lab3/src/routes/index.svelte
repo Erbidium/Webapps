@@ -301,7 +301,6 @@
               <p><strong>{text}</strong></p>
               <p><strong>Date: {date}</strong></p>
               <div class="buttonsZone">
-                <button class="btnEditSpecific"  disabled={formBtnDisable}>&#9998</button>
                 <button class="btnDeleteSpecific" id="{id}" on:click={event => onDelete(event)} disabled={formBtnDisable}>X</button>
               </div>
             </a>
