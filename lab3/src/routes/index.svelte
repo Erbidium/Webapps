@@ -137,6 +137,7 @@
   async function startExecuteDeleteNote(_eq) {
     showSpinnerNotes=true;
     formBtnDisable=true;
+    typeNote();
     const {errors, data} = await executeDeleteNote(_eq);
 
     if (errors) {
@@ -146,6 +147,7 @@
     await startFetchMyQuery();
     formBtnDisable=false;
     showSpinnerNotes=false;
+    typeNote();
   }
 
 
@@ -167,6 +169,7 @@
   async function startExecuteDeleteAllMutation() {
     showSpinnerNotes=true;
     formBtnDisable=true;
+    typeNote();
     const { errors, data } = await executeDeleteAllMutation();
 
     if (errors) {
@@ -176,6 +179,7 @@
     await startFetchMyQuery();
     showSpinnerNotes=false;
     formBtnDisable=false;
+    typeNote();
 
     console.log("Hello");
     // do something great with this precious data
