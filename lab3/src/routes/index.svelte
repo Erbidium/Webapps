@@ -177,6 +177,7 @@
     }
     await startFetchMyQuery();
     showSpinner = false;
+    formBtnDisable=false;
     // do something great with this precious data
     console.log(data);
   }
@@ -191,6 +192,8 @@
   let inputNote;
   let name;
   let noteText;
+
+  let formBtnDisable = false;
 
   let showSpinner=false;
 
@@ -220,6 +223,7 @@
     console.log("input"+inputNote);
 
     showSpinner = true;
+    formBtnDisable = true;
 
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -246,26 +250,25 @@
     <p style="color: red">"Sorry! Error occurred"</p>
   {:else}
     <p>Totally notes: {notes.length}</p>
-    <form style="--display-value: {displayValue}" bind:this={inputNote}>
-      <input type="text" id = "author-text" name = "authorInput" maxlength="25" placeholder="Input your name" bind:this={name}>
-      <textarea id="note-text" placeholder="Write note..." maxlength="96" bind:this={noteText}>
+    {#if showSpinner}
+      <Circle3 size="60" unit="px" duration="1s"/>
+    {:else}
+      <form style="--display-value: {displayValue}" bind:this={inputNote}>
+        <input type="text" id = "author-text" name = "authorInput" maxlength="25" placeholder="Input your name" bind:this={name}>
+        <textarea id="note-text" placeholder="Write note..." maxlength="96" bind:this={noteText}>
       </textarea>
-      {#if showSpinner}
-        {#if showSpinner}
-          <Circle3 size="60" unit="px" duration="1s"/>
-        {/if}
-      {/if}
-      <svg id="check-icon" bind:this={checkIcon} on:click={createNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-      </svg>
-      <svg id="x-icon" bind:this={xIcon} on:click={typeNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-      </svg>
-    </form>
-    <button class="createNote" on:click={typeNote}>Create note</button>
-    <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} >Delete all</button>
+        <svg id="check-icon" bind:this={checkIcon} on:click={createNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+        </svg>
+        <svg id="x-icon" bind:this={xIcon} on:click={typeNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </form>
+      <button class="createNote" on:click={typeNote}>Create note</button>
+      <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} >Delete all</button>
+    {/if}
     <ul>
       {#each notes as {author, date,  text, id}}
         <li>
@@ -275,8 +278,8 @@
             <p><strong>{text}</strong></p>
             <p><strong>Date: {date}</strong></p>
             <div class="buttonsZone">
-              <button class="btnEditSpecific">&#9998</button>
-              <button class="btnDeleteSpecific" id="{id}" on:click={event => onDelete(event)}>X</button>
+              <button class="btnEditSpecific" disabled="{formBtnDisable}">&#9998</button>
+              <button class="btnDeleteSpecific" id="{id}" on:click={event => onDelete(event)} disabled="{formBtnDisable}">X</button>
             </div>
           </a>
         </li>
