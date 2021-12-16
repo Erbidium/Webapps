@@ -280,13 +280,18 @@
     startFetchMyQuery().then(()=>{showSpinnerNotes=false;showSpinner=false;}).catch(()=>{errorHandle();errorOccured=true;})
   })
 
+  import Content from './Content.svelte';
+  import Modal from 'svelte-simple-modal';
+
 </script>
 
 <svelte:head>
   <title>Home</title>
 
 </svelte:head>
-
+<Modal>
+  <Content />
+</Modal>
 <div>
   {#if errorOccured}
     <p style="color: red">"Sorry! Error occurred"</p>
