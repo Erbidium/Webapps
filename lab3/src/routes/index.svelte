@@ -267,7 +267,7 @@
   {:else}
     <p>Totally notes: {notes.length}</p>
     {#if showSpinner}
-      <Circle3 size="60" unit="px" duration="1s"/>
+        <Circle3 size="60" unit="px" duration="1s"/>
     {:else}
       <form style="--display-value: {displayValue}" bind:this={inputNote}>
         <input type="text" id = "author-text" name = "authorInput" maxlength="25" placeholder="Input your name" bind:this={name}>
@@ -286,7 +286,9 @@
       <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} disabled={formBtnDisable}>Delete all</button>
     {/if}
     {#if showSpinnerNotes}
-      <Circle3 size="60" unit="px" duration="1s"/>
+      <div style="width: 100%;position: absolute;left: 50%">
+        <Circle3 size="60" unit="px" duration="1s"/>
+      </div>
     {:else}
       <ul>
         {#each notes as {author, date,  text, id}}
