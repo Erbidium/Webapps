@@ -288,7 +288,7 @@
       <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} disabled={formBtnDisable}>Delete all</button>
     {/if}
     {#if showSpinnerNotes}
-      <div style="width: 100%;position: absolute;left: 50%">
+      <div style="display: flex;justify-content: center;vertical-align: center;">
         <Circle3 size="60" unit="px" duration="1s"/>
       </div>
     {:else}
@@ -301,7 +301,7 @@
               <p><strong>{text}</strong></p>
               <p><strong>Date: {date}</strong></p>
               <div class="buttonsZone">
-                <button class="btnEditSpecific" disabled={formBtnDisable}>&#9998</button>
+                <button class="btnEditSpecific"  disabled={formBtnDisable}>&#9998</button>
                 <button class="btnDeleteSpecific" id="{id}" on:click={event => onDelete(event)} disabled={formBtnDisable}>X</button>
               </div>
             </a>
