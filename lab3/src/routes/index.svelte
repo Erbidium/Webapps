@@ -143,11 +143,12 @@
     if (errors) {
       // handle those errors like a pro
       console.error(errors);
+
+      errorHandle(errors);
     }
     await startFetchMyQuery();
     formBtnDisable=false;
     showSpinnerNotes=false;
-    disableNote();
   }
 
 
@@ -159,6 +160,7 @@
       console.error(errors);
       error=errors;
       errorOccured=true;
+      errorHandle(errors);
     }
     notes=data.notes;
     console.log(notes);
@@ -169,17 +171,17 @@
   async function startExecuteDeleteAllMutation() {
     showSpinnerNotes=true;
     formBtnDisable=true;
-    typeNote();
+    disableNote();
     const { errors, data } = await executeDeleteAllMutation();
 
     if (errors) {
       // handle those errors like a pro
       console.error(errors);
+      errorHandle(errors);
     }
     await startFetchMyQuery();
     showSpinnerNotes=false;
     formBtnDisable=false;
-    typeNote();
 
     console.log("Hello");
     // do something great with this precious data
@@ -200,6 +202,7 @@
 
     if (errors) {
       // handle those errors like a pro
+      errorHandle(errors);
       console.error(errors);
     }
     await startFetchMyQuery();
