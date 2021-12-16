@@ -7,7 +7,7 @@
   import { createClient as createWSClient } from 'graphql-ws';
   import { setClient, operationStore, subscription } from '@urql/svelte';
 
-  import { Jumper } from 'svelte-loading-spinners';
+  import { Circle3 } from 'svelte-loading-spinners'
 
   const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
@@ -251,7 +251,9 @@
       <textarea id="note-text" placeholder="Write note..." maxlength="96" bind:this={noteText}>
       </textarea>
       {#if showSpinner}
-        <Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
+        {#if showSpinner}
+          <Circle3 size="60" unit="px" duration="1s"/>
+        {/if}
       {/if}
       <svg id="check-icon" bind:this={checkIcon} on:click={createNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
