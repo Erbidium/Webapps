@@ -155,12 +155,11 @@
 
 
   async function startFetchMyQuery() {
-    const { errors, data } = await fetchMyQuery();
     errorOccured=false;
+    const { errors, data } = await fetchMyQuery();
     if (errors) {
       // handle those errors like a pro
       console.error(errors);
-      error=errors;
       errorOccured=true;
       errorHandle(errors);
     }
@@ -236,7 +235,6 @@
 
   let isDisabled="visible";
   let errorOccured =false;
-  let error;
   let displayValue = "none";
 
   function disableNote()
@@ -279,7 +277,7 @@
   }
   let notes;
   onMount(async()=>{
-    startFetchMyQuery().then(()=>{showSpinnerNotes=false;showSpinner=false}).catch(()=>errorHandle())
+    startFetchMyQuery().then(()=>{showSpinnerNotes=false;showSpinner=false;}).catch(()=>{errorHandle();errorOccured=true;})
   })
 
 </script>
@@ -290,13 +288,12 @@
 </svelte:head>
 
 <div>
-  {#if !notes}
+  {#if errorOccured}
+    <p style="color: red">"Sorry! Error occurred"</p>
+  {:else if !notes}
     <div style="display: flex;justify-content: center;vertical-align: center;">
       <Circle3 size="60" unit="px" duration="1s"/>
     </div>
-
-  {:else if errorOccured===true}
-    <p style="color: red">"Sorry! Error occurred"</p>
   {:else}
     <p>Totally notes: {notes.length}</p>
     {#if showSpinner}
