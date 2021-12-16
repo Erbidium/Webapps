@@ -51,9 +51,7 @@
     console.log([...dataNotes.notes]);
     notes=dataNotes.notes;
 
-    formBtnDisable=false;
-    showSpinner=false;
-    showSpinnerNotes=false;
+    stateReset();
 
     return [dataNotes.notes, ...messages];
   };
@@ -166,19 +164,15 @@
       errorHandle(errors);
     }
     notes=data.notes;
-    console.log(notes);
-
-    // do something great with this precious data
-    console.log(data);
   }
   async function startExecuteDeleteAllMutation() {
     showSpinnerNotes=true;
     formBtnDisable=true;
     disableNote();
+
     const { errors, data } = await executeDeleteAllMutation();
 
     if (errors) {
-      // handle those errors like a pro
       console.error(errors);
       errorHandle(errors);
     }
@@ -186,16 +180,17 @@
       formBtnDisable=false;
       showSpinnerNotes=false;
     }).catch(()=>errorHandle())
-
-    console.log("Hello");
-    // do something great with this precious data
-    console.log(data);
   }
 
-  function errorHandle(errors) {
+  function stateReset()
+  {
     showSpinner=false;
     showSpinnerNotes=false;
     formBtnDisable=false;
+  }
+
+  function errorHandle(errors) {
+    stateReset();
     if (errors?.message === 'hasura cloud limit of 60 requests/minute exceeded') {
       popUpMessage='Too many requests. Try later';
       setTimeout(() => popUpMessage = '', 2000);
@@ -210,7 +205,6 @@
     const { errors, data } = await executeCreateNote(date, author, text);
 
     if (errors) {
-      // handle those errors like a pro
       errorHandle(errors);
       console.error(errors);
     }
@@ -237,7 +231,6 @@
 
   let showSpinnerNotes=false;
 
-  let isDisabled="visible";
   let errorOccured =false;
   let displayValue = "none";
 
@@ -255,17 +248,9 @@
     else {
       displayValue="flex";
     }
-    console.log("IsDisabled: "+isDisabled);
-    console.log(xIcon);
-    console.log("Rejected!");
-
   }
   function createNote()
   {
-    console.log(checkIcon);
-    console.log("Note is created!");
-    console.log("input"+inputNote);
-
     showSpinner = true;
     formBtnDisable = true;
 
