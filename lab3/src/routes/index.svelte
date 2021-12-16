@@ -146,9 +146,11 @@
 
       errorHandle(errors);
     }
-    await startFetchMyQuery();
-    formBtnDisable=false;
-    showSpinnerNotes=false;
+    startFetchMyQuery().then(()=>{
+      formBtnDisable=false;
+      showSpinnerNotes=false;
+    }).catch(()=>errorHandle())
+
   }
 
 
@@ -179,9 +181,10 @@
       console.error(errors);
       errorHandle(errors);
     }
-    await startFetchMyQuery();
-    showSpinnerNotes=false;
-    formBtnDisable=false;
+    startFetchMyQuery().then(()=>{
+      formBtnDisable=false;
+      showSpinnerNotes=false;
+    }).catch(()=>errorHandle())
 
     console.log("Hello");
     // do something great with this precious data
@@ -189,6 +192,9 @@
   }
 
   function errorHandle(errors) {
+    showSpinner=false;
+    showSpinnerNotes=false;
+    formBtnDisable=false;
     if (errors?.message === 'hasura cloud limit of 60 requests/minute exceeded') {
       alert('Too many requests. Try later');
       return true;
@@ -205,16 +211,15 @@
       errorHandle(errors);
       console.error(errors);
     }
-    await startFetchMyQuery();
-    showSpinner = false;
-    formBtnDisable=false;
-    // do something great with this precious data
-    console.log(data);
+    startFetchMyQuery().then(()=>{
+      formBtnDisable=false;
+      showSpinner=false;
+    }).catch(()=>errorHandle())
   }
 
   function onDelete (event) {
     const targetElement = event.target;
-    startExecuteDeleteNote(targetElement.id);
+    startExecuteDeleteNote(targetElement.id).catch(()=>errorHandle());
   }
   let checkIcon;
   let xIcon;
@@ -265,12 +270,16 @@
     let today = new Date();
     let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
-    startExecuteCreateNote(date, name.value, noteText.value);
+    startExecuteCreateNote(date, name.value, noteText.value).catch(()=>errorHandle());
     inputNote.reset();
+  }
+  function deleteAllNotes()
+  {
+    startExecuteDeleteAllMutation().catch(()=>errorHandle());
   }
   let notes;
   onMount(async()=>{
-    await startFetchMyQuery()
+    startFetchMyQuery().catch(()=>errorHandle())
   })
 
 </script>
@@ -306,7 +315,7 @@
         </svg>
       </form>
       <button class="createNote" on:click={typeNote} disabled={formBtnDisable}>Create note</button>
-      <button class="btnDeleteAll" on:click={startExecuteDeleteAllMutation} disabled={formBtnDisable}>Delete all</button>
+      <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
     {/if}
     {#if showSpinnerNotes}
       <div style="display: flex;justify-content: center;vertical-align: center;">
