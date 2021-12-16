@@ -3,7 +3,7 @@
 </script>
 
 <script>
-  import {doQuery} from "$lib/hasura";
+  import { doQuery } from '$lib/hasura';
   import {
     createClient,
     defaultExchanges,
@@ -175,25 +175,31 @@
   }
 
   function typeNote() {
-    displayValue=(displayValue !== 'none')?'none':'flex';
+    displayValue = displayValue !== 'none' ? 'none' : 'flex';
+  }
+
+  function getDate() {
+    let today = new Date();
+    return (
+      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+    );
   }
   function createNote() {
+    if (name.value.length < 3 || noteText.value.length < 10) {
+      popUpMessage =
+        'Name should have at least 3 symbols and note should have at least 10 symbols';
+      setTimeout(() => (popUpMessage = ''), 4000);
+      return;
+    }
     showSpinner = true;
     formBtnDisable = true;
-
-    let today = new Date();
-    let date =
-      today.getFullYear() +
-      '-' +
-      (today.getMonth() + 1) +
-      '-' +
-      today.getDate();
-
+    let date = getDate();
     startExecuteCreateNote(date, name.value, noteText.value).catch(() =>
       errorHandle()
     );
     inputNote.reset();
   }
+
   function deleteAllNotes() {
     startExecuteDeleteAllMutation().catch(() => errorHandle());
   }
