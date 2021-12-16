@@ -122,9 +122,10 @@ button:focus:not(:focus-visible) {
 
 form {
   z-index: 5;
-  position: absolute;
-  top: 26%;
-  left: 40%;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform:translateX(-50%);
   margin-bottom: 15px;
   background-color: #ffdb58;
   border-left: 6px solid gray;
