@@ -70,7 +70,7 @@
     showSpinnerNotes = true;
     formBtnDisable = true;
     disableNote();
-    const { errors, data } = await doQuery('deleteNote', _eq);
+    const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
 
     if (errors) {
       console.error(errors);
