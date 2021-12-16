@@ -3,12 +3,7 @@
 </script>
 
 <script>
-  import {
-    executeDeleteAllMutation,
-    executeCreateNote,
-    executeDeleteNote,
-    fetchMyQuery,
-  } from '$lib/hasura';
+  import {doQuery} from "$lib/hasura";
 
   import {
     createClient,
@@ -75,7 +70,7 @@
     showSpinnerNotes = true;
     formBtnDisable = true;
     disableNote();
-    const { errors, data } = await executeDeleteNote(_eq);
+    const { errors, data } = await doQuery('deleteNote', _eq);
 
     if (errors) {
       console.error(errors);
@@ -92,7 +87,7 @@
 
   async function startFetchMyQuery() {
     errorOccured = false;
-    const { errors, data } = await fetchMyQuery();
+    const { errors, data } = await doQuery('getDataQuery');
     if (errors) {
       console.error(errors);
       errorOccured = true;
@@ -105,7 +100,7 @@
     formBtnDisable = true;
     disableNote();
 
-    const { errors, data } = await executeDeleteAllMutation();
+    const { errors, data } = await doQuery('deleteAllMutation');
 
     if (errors) {
       console.error(errors);
@@ -140,8 +135,11 @@
   }
 
   async function startExecuteCreateNote(date, author, text) {
-    const { errors, data } = await executeCreateNote(date, author, text);
-
+    const { errors, data } = await doQuery('createNote', {
+      date: date,
+      author: author,
+      text: text,
+    });
     if (errors) {
       errorHandle(errors);
       console.error(errors);
