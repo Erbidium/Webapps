@@ -225,7 +225,7 @@
       displayValue="none";
     }
     else {
-      displayValue="block";
+      displayValue="flex";
     }
     console.log("IsDisabled: "+isDisabled);
     console.log(xIcon);
@@ -271,7 +271,7 @@
     {:else}
       <form style="--display-value: {displayValue}" bind:this={inputNote}>
         <input type="text" id = "author-text" name = "authorInput" maxlength="25" placeholder="Input your name" bind:this={name}>
-        <textarea id="note-text" placeholder="Write note..." maxlength="96" bind:this={noteText}>
+        <textarea id="note-text" placeholder="Write note..." maxlength="96" bind:this={noteText}>Write note...
       </textarea>
         <svg id="check-icon" bind:this={checkIcon} on:click={createNote} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -314,5 +314,21 @@
 <style>
   form {
     display: var(--display-value);
+  }
+  input
+  {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  textarea
+  {
+    background-color: transparent;
+    border: none;
+    color: gray;
+    font-family: inherit;
+    font-size: inherit;
   }
 </style>
