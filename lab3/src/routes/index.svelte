@@ -4,7 +4,6 @@
 
 <script>
   import {doQuery} from "$lib/hasura";
-
   import {
     createClient,
     defaultExchanges,
@@ -12,9 +11,8 @@
   } from '@urql/core';
   import { createClient as createWSClient } from 'graphql-ws';
   import { setClient, operationStore, subscription } from '@urql/svelte';
-
   import { Circle3 } from 'svelte-loading-spinners';
-
+  import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
 
   const wsClient = createWSClient({
@@ -52,7 +50,17 @@
     }
   }
   `);
+
   setClient(client);
+
+  let notes;
+
+  function stateReset() {
+    showSpinner = false;
+    showSpinnerNotes = false;
+    formBtnDisable = false;
+  }
+
   const handleSubscription = (messages = [], dataNotes) => {
     console.log([...dataNotes.notes]);
     notes = dataNotes.notes;
@@ -64,8 +72,6 @@
 
   subscription(messages, handleSubscription);
 
-  import { onMount } from 'svelte';
-
   async function startExecuteDeleteNote(_eq) {
     showSpinnerNotes = true;
     formBtnDisable = true;
@@ -74,7 +80,6 @@
 
     if (errors) {
       console.error(errors);
-
       errorHandle(errors);
     }
     startFetchMyQuery()
@@ -114,11 +119,7 @@
       .catch(() => errorHandle());
   }
 
-  function stateReset() {
-    showSpinner = false;
-    showSpinnerNotes = false;
-    formBtnDisable = false;
-  }
+  let popUpMessage;
 
   function errorHandle(errors) {
     stateReset();
@@ -156,8 +157,6 @@
     const targetElement = event.target;
     startExecuteDeleteNote(targetElement.id).catch(() => errorHandle());
   }
-  let checkIcon;
-  let xIcon;
 
   let inputNote;
   let name;
@@ -202,7 +201,7 @@
   function deleteAllNotes() {
     startExecuteDeleteAllMutation().catch(() => errorHandle());
   }
-  let notes;
+
   onMount(async () => {
     startFetchMyQuery()
       .then(() => {
@@ -214,8 +213,6 @@
         errorOccured = true;
       });
   });
-
-  let popUpMessage;
 </script>
 
 <svelte:head>
@@ -253,7 +250,6 @@
         />
         <svg
           id="check-icon"
-          bind:this={checkIcon}
           on:click={createNote}
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -271,7 +267,6 @@
         </svg>
         <svg
           id="x-icon"
-          bind:this={xIcon}
           on:click={typeNote}
           xmlns="http://www.w3.org/2000/svg"
           width="16"
