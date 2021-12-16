@@ -137,7 +137,7 @@
   async function startExecuteDeleteNote(_eq) {
     showSpinnerNotes=true;
     formBtnDisable=true;
-    typeNote();
+    disableNote();
     const {errors, data} = await executeDeleteNote(_eq);
 
     if (errors) {
@@ -147,7 +147,7 @@
     await startFetchMyQuery();
     formBtnDisable=false;
     showSpinnerNotes=false;
-    typeNote();
+    disableNote();
   }
 
 
@@ -230,6 +230,11 @@
   let errorOccured =false;
   let error;
   let displayValue = "none";
+
+  function disableNote()
+  {
+    displayValue="none";
+  }
 
   function typeNote()
   {
