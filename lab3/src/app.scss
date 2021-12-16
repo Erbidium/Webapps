@@ -147,6 +147,7 @@ form {
   border-left: 6px solid gray;
   border-radius: 0 10px 10px 0;
   box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+  word-wrap: break-word;
 }
 
 textarea {
@@ -220,10 +221,6 @@ button {
   width: 6em;
   height: 3em;
   text-align: center;
-}
-
-.btnEditSpecific {
-  background-color: Green;
 }
 
 .btnDeleteSpecific {
