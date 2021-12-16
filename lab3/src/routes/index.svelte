@@ -48,6 +48,10 @@
   const handleSubscription = (messages = [], dataNotes) => {
     console.log([...dataNotes.notes]);
     notes=dataNotes.notes;
+
+    formBtnDisable=false;
+    showSpinner=false;
+
     return [dataNotes.notes, ...messages];
   };
 
