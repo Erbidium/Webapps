@@ -2,22 +2,16 @@ name: Deploy to Firebase Hosting on PR
 'on':
   pull_request:
     branches:
-      - lab3
+      - lab4
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: 'npm'
-      - run: npm ci && npm run build
-        working-directory: lab2
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB2_80C36 }}'
-          projectId: lab2-80c36
-          entryPoint: ./lab2
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB4_12DC4 }}'
+          projectId: lab4-12dc4
+          entryPoint: ./Lab4
