@@ -1,15 +1,26 @@
-* {
+:root {
   --body-cl: lightslategrey;
   --span-cl: #fff;
   --span-activated-cl: #333;
+  --span-height: 2px;
   --backdrop-cl: rgba(197, 197, 197, 0.21);
-  --menu-item-hover-cl: #cfd8dc;
   --box-shadow-cl: rgba(3, 3, 3, 0.2);
   --active-label-cl: #bbb;
+  --active-label-size: 15px;
   --active-label-hover-cl: #14e530;
   --checked-cl: #18dd39;
+  --menu-button-size: 25px;
   --menu-container-cl: #dbeaec;
+  --menu-container-max-width: 300px;
+  --menu-container-min-width: 150px;
+  --menu-item-cl: #333;
+  --menu-item-hover-cl: #cfd8dc;
   --menu-item-fonts: 'Roboto', sans-serif;
+  --menu-item-font-size: 20px;
+  --menu-item-font-weight: 600;
+  --slider-max-width: 960px;
+  --controls-height: 50px;
+  --slide-switch-size: 68px;
 }
 
 body {
@@ -28,7 +39,7 @@ body {
   text-align: center;
   top: 10px;
   margin: 0 auto;
-  max-width: 960px;
+  max-width: var(--slider-max-width);
 }
 
 article img {
@@ -54,8 +65,8 @@ a {
 .active label {
   border-radius: 10px;
   display: inline-block;
-  height: 15px;
-  width: 15px;
+  height: var(--active-label-size);
+  width: var(--active-label-size);
   background: var(--active-label-cl);
 }
 
@@ -82,8 +93,8 @@ a {
   float: left;
   margin: 0 0 0 0;
   display: block;
-  height: 68px;
-  width: 68px;
+  height: var(--slide-switch-size);
+  width: var(--slide-switch-size);
 }
 
 #switch1:checked ~ .controls label:nth-child(2),
@@ -95,8 +106,8 @@ a {
   float: right;
   margin: 0 0 0 0;
   display: block;
-  height: 68px;
-  width: 68px;
+  height: var(--slide-switch-size);
+  width: var(--slide-switch-size);
 }
 
 .burger {
@@ -135,7 +146,7 @@ a {
 .controls {
   margin: -25% 0 0 0;
   width: 100%;
-  height: 50px;
+  height: var(--controls-height);
 }
 
 .active {
@@ -155,8 +166,8 @@ a {
   display: flex;
   align-items: center;
   position: fixed;
-  width: 25px;
-  height: 25px;
+  width: var(--menu-button-size);
+  height: var(--menu-button-size);
   top: 20px;
   left: 20px;
   cursor: pointer;
@@ -169,7 +180,7 @@ a {
   display: block;
   position: absolute;
   width: 100%;
-  height: 2px;
+  height: var(--span-height);
   background-color: var(--span-cl);
   transition-duration: 0.25s;
 }
@@ -195,8 +206,8 @@ a {
   visibility: hidden;
   top: 0;
   left: -100%;
-  max-width: 300px;
-  min-width: 150px;
+  max-width: var(--menu-container-max-width);
+  min-width: var(--menu-container-min-width);
   width: 100%;
   height: 100%;
   margin: 0;
@@ -210,10 +221,10 @@ a {
 .menu-item {
   display: block;
   padding: 12px 24px;
-  color: #333;
+  color: var(--menu-item-cl);
   font-family: var(--menu-item-fonts);
-  font-size: 20px;
-  font-weight: 600;
+  font-size: var(--menu-item-font-size);
+  font-weight: var(--menu-item-font-weight);
   text-decoration: none;
 }
 
