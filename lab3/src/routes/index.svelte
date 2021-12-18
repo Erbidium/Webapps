@@ -1,121 +1,52 @@
-<script context="module">
-  export const prerender = true;
-</script>
-
 <script>
-  import { Jumper } from 'svelte-loading-spinners';
 
-  let form = {
-    reset: () => {},
-  };
-  let errorText = '';
-  let showSpinner = false;
-  let statusMessage = false;
-  let errorMessage = false;
-  let formBtnDisable = false;
-  function resetFormStatus() {
-    statusMessage = false;
-    errorMessage = false;
-    formBtnDisable = false;
-  }
-  let contactFormHandler = async e => {
-    statusMessage = false;
-    errorMessage = false;
-    formBtnDisable = true;
-    showSpinner = true;
+  import {fetchGraphQL, startFetchMyQuery} from "$lib/api";
+  /*
+This is an example snippet - you should consider tailoring it
+to your service.
+*/
 
-    let formData = {};
-    Array.from(form.elements).map(element=>formData[element.name]=element.value);
-    formData['referrer'] = document.referrer;
-    try {
-      await fetch('/api/sendMail', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      }).then(res => {
-        if (res.ok) {
-          form.reset();
-          statusMessage = true;
-          return res;
-        }
-        throw res;
-      });
-    } catch (e) {
-      if (e.status >= 500) {
-        errorText = 'Server error';
-      } else if (e.status === 400) {
-        errorText = 'Empty email message!';
-      } else if (e.status === 429) {
-        errorText = 'You sent mail too many times';
-      }
-      errorMessage = true;
-      console.log(e);
-    } finally {
-      showSpinner = false;
+
+
+  const operationsDoc = `
+  query MyQuery {
+    notes {
+      datetime
+      id
+      text
     }
-  };
+  }
+`;
+
+  function fetchMyQuery() {
+    return fetchGraphQL(
+            operationsDoc,
+            "MyQuery",
+            {}
+    );
+  }
+
+
+
+  let res = startFetchMyQuery(fetchMyQuery);
 </script>
 
 <svelte:head>
   <title>Home</title>
 </svelte:head>
 
-<section>
-  <h1>Please, fill form</h1>
-  <form
-    class="contact-form"
-    bind:this={form}
-    on:submit|preventDefault={contactFormHandler}
-  >
-    <input
-      class="contact-form-input"
-      type="text"
-      name="userName"
-      placeholder="Name"
-      required
-    />
-    <input
-      class="contact-form-input"
-      type="email"
-      name="userEmail"
-      placeholder="Email"
-      required
-    />
-    <textarea
-      class="contact-form-message"
-      name="userMessage"
-      cols="30"
-      rows="10"
-      placeholder="Message text"
-      required
-    />
-    {#if statusMessage}
-      <p class="status-text success">
-        Message sent!
-        <button class="button class-btn" on:click={resetFormStatus}>
-          &times;
-        </button>
+<div>
+  {#await fetchMyQuery()}
+    <p>...waiting</p>
+  {:then data}
+    <p>The number is {data.data.notes.length}</p>
+    {#each data.data.notes as {datetime, text}}
+      <p>
+        {datetime} - {text}
       </p>
-    {:else if errorMessage}
-      <p class="status-text error">
-        {errorText}
-        <button class="button class-btn" on:click={resetFormStatus}>
-          &times;
-        </button>
-      </p>
-    {/if}
+    {/each}
+  {:catch error}
+    <p style="color: red">{error.message}</p>
+  {/await}
+</div>
 
-    <button
-      class="button contact-form-button"
-      type="submit"
-      disabled={formBtnDisable}
-    >
-      {#if showSpinner}
-        <Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
-      {/if}
-      Submit
-    </button>
-  </form>
-</section>
