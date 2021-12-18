@@ -2,38 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lab4</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-    <div class="all">
-      <input checked type="radio" name="respond" id="desktop" />
-      <article id="slider">
+    <main>
+      <input checked type="radio" name="respond" class="desktop" />
+      <article class="slider">
         <input checked type="radio" name="slider" id="switch1" />
         <input type="radio" name="slider" id="switch2" />
         <input type="radio" name="slider" id="switch3" />
         <input type="radio" name="slider" id="switch4" />
         <input type="radio" name="slider" id="switch5" />
 
-        <div id="slides">
-          <div id="overflow">
+        <div class="slides">
+          <div class="overflow">
             <div class="image">
-              <article><img src="images/1.jpg" /></article>
-              <article><img src="images/2.jpg" /></article>
-              <article><img src="images/3.jpg" /></article>
-              <article><img src="images/4.jpg" /></article>
-              <article><img src="images/5.jpg" /></article>
+              <article><img src="images/1.jpg" alt="Car1" /></article>
+              <article><img src="images/2.jpg" alt="Car2" /></article>
+              <article><img src="images/3.jpg" alt="Car3" /></article>
+              <article><img src="images/4.jpg" alt="Car4" /></article>
+              <article><img src="images/5.jpg" alt="Car5" /></article>
             </div>
           </div>
         </div>
-        <div id="controls">
+        <div class="controls">
           <label for="switch1"></label>
           <label for="switch2"></label>
           <label for="switch3"></label>
           <label for="switch4"></label>
           <label for="switch5"></label>
         </div>
-        <div id="active">
+        <div class="active">
           <label for="switch1"></label>
           <label for="switch2"></label>
           <label for="switch3"></label>
@@ -41,6 +42,6 @@
           <label for="switch5"></label>
         </div>
       </article>
-    </div>
+    </main>
   </body>
 </html>
