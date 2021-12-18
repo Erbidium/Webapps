@@ -1,5 +1,12 @@
 body {
   background-color: lightslategrey;
+  margin: 0;
+  padding: 0;
+}
+
+.slides article {
+  float: left;
+  width: 20%;
 }
 
 .slider {
@@ -10,15 +17,8 @@ body {
   max-width: 960px;
 }
 
-.slides article {
-  width: 20%;
-  float: left;
-}
-
-.slides .image {
-  width: 500%;
-  line-height: 0;
-  transition: all 800ms cubic-bezier(0.77, 0, 0.175, 1);
+article img {
+  width: 100%;
 }
 
 .overflow {
@@ -26,8 +26,10 @@ body {
   overflow: hidden;
 }
 
-article img {
-  width: 100%;
+.slides .image {
+  width: 500%;
+  line-height: 0;
+  transition: all 800ms cubic-bezier(0.75, 0, 0.17, 1);
 }
 
 label,
@@ -38,8 +40,8 @@ a {
 .active label {
   border-radius: 10px;
   display: inline-block;
-  width: 15px;
   height: 15px;
+  width: 15px;
   background: #bbb;
 }
 
@@ -48,12 +50,13 @@ a {
 }
 
 .active label:hover {
-  background: #76c8ff;
-  border-color: #777 !important;
+  background: #14e530;
+  transition: 0.3ms;
 }
 
 .controls label:hover {
   opacity: 0.6;
+  transition: 0.3ms;
 }
 
 #switch1:checked ~ .controls label:nth-child(5),
@@ -131,8 +134,7 @@ a {
 #switch3:checked ~ .active label:nth-child(3),
 #switch4:checked ~ .active label:nth-child(4),
 #switch5:checked ~ .active label:nth-child(5) {
-  background: #18a3dd;
-  border-color: #18a3dd !important;
+  background: #18dd39;
 }
 
 .menu-button {
@@ -184,11 +186,11 @@ a {
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: 80px 0;
+  padding: 70px 0;
   list-style: none;
   text-align: center;
-  background-color: #eceff1;
-  box-shadow: 1px 0 6px rgba(0, 0, 0, 0.2);
+  background-color: #dbeaec;
+  box-shadow: 2px 0 5px rgba(3, 3, 3, 0.2);
 }
 
 .menu-item {
@@ -227,7 +229,7 @@ a {
 .backdrop {
   display: none;
   position: fixed;
-  background-color: rgba(255, 255, 255, 0.212);
+  background-color: rgba(197, 197, 197, 0.21);
   z-index: -1;
   top: 0;
   left: 0;
