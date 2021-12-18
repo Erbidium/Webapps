@@ -91,7 +91,7 @@ a {
 #switch5:checked ~ .controls label:nth-child(4) {
   background: url('images/prev.png') no-repeat;
   float: left;
-  margin: 0 0 0 0;
+  margin: 0;
   display: block;
   height: var(--slide-switch-size);
   width: var(--slide-switch-size);
@@ -104,7 +104,7 @@ a {
 #switch5:checked ~ .controls label:nth-child(1) {
   background: url('images/next.png') no-repeat;
   float: right;
-  margin: 0 0 0 0;
+  margin: 0;
   display: block;
   height: var(--slide-switch-size);
   width: var(--slide-switch-size);
