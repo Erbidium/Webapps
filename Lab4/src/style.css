@@ -213,3 +213,18 @@ a {
   visibility: visible;
   left: 0;
 }
+
+.backdrop {
+  display: none;
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.212);
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.burger input:checked ~ .backdrop {
+  display: block;
+}
