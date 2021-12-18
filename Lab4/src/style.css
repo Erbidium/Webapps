@@ -3,6 +3,7 @@
   text-align: center;
   top: 10px;
   margin: 0 auto;
+  max-width: 960px;
 }
 
 .slides article {
@@ -23,10 +24,6 @@
 
 article img {
   width: 100%;
-}
-
-.desktop:checked ~ .slider {
-  max-width: 960px;
 }
 
 label,
