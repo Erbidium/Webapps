@@ -1,5 +1,19 @@
+* {
+  --body-cl: lightslategrey;
+  --span-cl: #fff;
+  --span-activated-cl: #333;
+  --backdrop-cl: rgba(197, 197, 197, 0.21);
+  --menu-item-hover-cl: #cfd8dc;
+  --box-shadow-cl: rgba(3, 3, 3, 0.2);
+  --active-label-cl: #bbb;
+  --active-label-hover-cl: #14e530;
+  --checked-cl: #18dd39;
+  --menu-container-cl: #dbeaec;
+  --menu-item-fonts: 'Roboto', sans-serif;
+}
+
 body {
-  background-color: lightslategrey;
+  background-color: var(--body-cl);
   margin: 0;
   padding: 0;
 }
@@ -42,7 +56,7 @@ a {
   display: inline-block;
   height: 15px;
   width: 15px;
-  background: #bbb;
+  background: var(--active-label-cl);
 }
 
 .controls label {
@@ -50,7 +64,7 @@ a {
 }
 
 .active label:hover {
-  background: #14e530;
+  background: var(--active-label-hover-cl);
   transition: 0.3ms;
 }
 
@@ -134,7 +148,7 @@ a {
 #switch3:checked ~ .active label:nth-child(3),
 #switch4:checked ~ .active label:nth-child(4),
 #switch5:checked ~ .active label:nth-child(5) {
-  background: #18dd39;
+  background: var(--checked-cl);
 }
 
 .menu-button {
@@ -156,7 +170,7 @@ a {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: #fff;
+  background-color: var(--span-cl);
   transition-duration: 0.25s;
 }
 
@@ -189,28 +203,28 @@ a {
   padding: 70px 0;
   list-style: none;
   text-align: center;
-  background-color: #dbeaec;
-  box-shadow: 2px 0 5px rgba(3, 3, 3, 0.2);
+  background-color: var(--menu-container-cl);
+  box-shadow: 2px 0 5px var(--box-shadow-cl);
 }
 
 .menu-item {
   display: block;
   padding: 12px 24px;
   color: #333;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--menu-item-fonts);
   font-size: 20px;
   font-weight: 600;
   text-decoration: none;
 }
 
 .menu-item:hover {
-  background-color: #cfd8dc;
+  background-color: var(--menu-item-hover-cl);
 }
 
 .backdrop {
   display: none;
   position: fixed;
-  background-color: rgba(197, 197, 197, 0.21);
+  background-color: var(--backdrop-cl);
   z-index: -1;
   top: 0;
   left: 0;
@@ -224,16 +238,19 @@ a {
 
 #menu-toggle:checked ~ .menu-button > span {
   transform: rotate(45deg);
+  background-color: var(--span-activated-cl);
 }
 
 #menu-toggle:checked ~ .menu-button > span::before {
   top: 0;
   transform: rotate(0);
+  background-color: var(--span-activated-cl);
 }
 
 #menu-toggle:checked ~ .menu-button > span::after {
   top: 0;
   transform: rotate(90deg);
+  background-color: var(--span-activated-cl);
 }
 
 #menu-toggle:checked ~ .menu-container {
