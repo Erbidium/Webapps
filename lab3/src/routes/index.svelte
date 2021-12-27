@@ -128,7 +128,7 @@
       setTimeout(() => (popUpMessage = ''), 2000);
       return true;
     }
-    popUpMessage = 'Server Error. ' + errors?.message;
+    popUpMessage = `Server Error ${errors?.message ?? ''}`;
     setTimeout(() => (popUpMessage = ''), 2000);
     return true;
   }
