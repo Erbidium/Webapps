@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab4</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="burger">
+        <input id="menu-toggle" type="checkbox" />
+        <label class="menu-button" for="menu-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+        <ul class="menu-container">
+          <li>
+            <a class="menu-item" href="https://webapps-lab1.vercel.app/">
+              Lab1
+            </a>
+          </li>
+          <li>
+            <a class="menu-item" href="https://lab2-80c36.web.app/"> Lab2 </a>
+          </li>
+          <li>
+            <a class="menu-item" href="https://lab3-75062.web.app/"> Lab3 </a>
+          </li>
+          <li>
+            <a class="menu-item" href="https://github.com/Erbidium">Github</a>
+          </li>
+        </ul>
+        <label for="menu-toggle" class="backdrop"></label>
+      </div>
+      <h2>Sport cars</h2>
+    </header>
+    <main>
+      <div class="slider">
+        <input checked type="radio" name="slider" id="switch1" />
+        <input type="radio" name="slider" id="switch2" />
+        <input type="radio" name="slider" id="switch3" />
+        <input type="radio" name="slider" id="switch4" />
+        <input type="radio" name="slider" id="switch5" />
+
+        <div class="slides">
+          <div class="overflow">
+            <div class="image">
+              <article><img src="/images/1.jpg" alt="car1" /></article>
+              <article><img src="/images/2.jpg" alt="car2" /></article>
+              <article><img src="/images/3.jpg" alt="car3" /></article>
+              <article><img src="/images/4.jpg" alt="car4" /></article>
+              <article><img src="/images/5.jpg" alt="car5" /></article>
+            </div>
+          </div>
+        </div>
+        <div class="controls">
+          <label for="switch1"></label>
+          <label for="switch2"></label>
+          <label for="switch3"></label>
+          <label for="switch4"></label>
+          <label for="switch5"></label>
+        </div>
+        <div class="active">
+          <label for="switch1"></label>
+          <label for="switch2"></label>
+          <label for="switch3"></label>
+          <label for="switch4"></label>
+          <label for="switch5"></label>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
