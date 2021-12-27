@@ -13,7 +13,7 @@
     "stylelint:fix": "stylelint **/*.scss --allow-empty-input --fix --ignore-path .gitignore"
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "^1.0.0-next.21",
+    "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -30,8 +30,7 @@
     "stylelint-config-standard-scss": "^2.0.1",
     "svelte": "^3.34.0",
     "svelte-loading-spinners": "^0.1.7",
-    "svelte-preprocess": "^4.9.5",
-    "urql": "^2.0.5"
+    "svelte-preprocess": "^4.9.5"
   },
   "type": "module",
   "dependencies": {
@@ -42,7 +41,7 @@
     "cookie": "^0.4.1",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.14.1",
-    "firebase-tools": "^9.20.0",
-    "graphql": "^16.0.1"
+    "graphql": "^16.0.1",
+    "urql": "^2.0.5"
   }
 }

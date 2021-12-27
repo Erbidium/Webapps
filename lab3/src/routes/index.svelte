@@ -97,7 +97,7 @@
     }
     notes = data.notes;
   }
-  
+
   async function startExecuteDeleteAllMutation() {
     showSpinnerNotes = true;
     formBtnDisable = true;
@@ -128,7 +128,7 @@
       setTimeout(() => (popUpMessage = ''), 2000);
       return true;
     }
-    popUpMessage = 'Server Error';
+    popUpMessage = 'Server Error. ' + errors?.message;
     setTimeout(() => (popUpMessage = ''), 2000);
     return true;
   }
