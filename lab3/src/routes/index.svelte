@@ -97,6 +97,7 @@
     }
     notes = data.notes;
   }
+  
   async function startExecuteDeleteAllMutation() {
     showSpinnerNotes = true;
     formBtnDisable = true;
