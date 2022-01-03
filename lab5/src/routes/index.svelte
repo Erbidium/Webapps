@@ -16,7 +16,7 @@
   import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
   import auth from '../authService';
-  import { isAuthenticated, user } from '../store';
+  import { isAuthenticated, user, token } from '../store';
 
   /*const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
@@ -114,13 +114,18 @@
       console.error(errors);
       errorHandle(errors);
     }
-    startFetchMyQuery()
-      .then(() => {
-        formBtnDisable = false;
-        showSpinnerNotes = false;
-      })
-      .catch(() => errorHandle());
   }
+
+  token.subscribe(async(tokenValue) => {
+    if(tokenValue!=='') {
+      startFetchMyQuery()
+        .then(() => {
+          formBtnDisable = false;
+          showSpinnerNotes = false;
+        })
+        .catch(() => errorHandle());
+    }
+  })
 
   let popUpMessage;
 
@@ -201,25 +206,17 @@
   }
 
   let authClient;
-  let token;
   onMount(async () => {
     authClient = await auth.createClient();
     isAuthenticated.set(await authClient.isAuthenticated());
     const accessToken = await authClient.getIdTokenClaims();
     if(accessToken)
     {
-      token=accessToken.__raw;
+      token.set(accessToken.__raw);
     }
     user.set(await authClient.getUser());
-    startFetchMyQuery()
-      .then(() => {
-        showSpinnerNotes = false;
-        showSpinner = false;
-      })
-      .catch(() => {
-        errorHandle();
-        errorOccured = true;
-      });
+    console.log(isAuthenticated);
+    console.log(notes);
   });
 
   function login() {
