@@ -225,6 +225,14 @@ button {
   text-align: center;
 }
 
+.btnLogOut, .btnLogIn {
+  background-color: Yellow;
+  display: inline-block;
+  width: 6em;
+  height: 3em;
+  text-align: center;
+}
+
 .btnDeleteSpecific {
   background-color: Crimson;
 }

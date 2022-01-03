@@ -221,6 +221,10 @@
   function login() {
     auth.loginWithPopup(authClient);
   }
+
+  function logout() {
+    auth.logout(authClient);
+  }
 </script>
 
 <svelte:head>
@@ -300,6 +304,7 @@
           on:click={deleteAllNotes}
           disabled={formBtnDisable}>Delete all</button
         >
+        <button class="btnLogOut" on:click={logout}>Log out</button>
       {/if}
       {#if showSpinnerNotes}
         <div
@@ -331,7 +336,7 @@
       {/if}
     {/if}
   {:else}
-    <button on:click={login}>Log in</button>
+    <button class='btnLogIn' on:click={login}>Log in</button>
   {/if}
 </div>
 
