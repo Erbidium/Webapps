@@ -43,10 +43,11 @@
   const messages = operationStore(`
     subscription MySubscription {
     notes {
-      author
-      date
-      id
       text
+      userId
+      id
+      date
+      name
     }
   }
   `);
@@ -133,11 +134,11 @@
     return true;
   }
 
-  async function startExecuteCreateNote(date, author, text) {
+  async function startExecuteCreateNote(name, text) {
     const { errors, data } = await doQuery('createNote', {
-      date: date,
-      author: author,
+      name: name,
       text: text,
+      userId: 'user_1',
     });
     if (errors) {
       errorHandle(errors);
@@ -191,8 +192,7 @@
     }
     showSpinner = true;
     formBtnDisable = true;
-    let date = getDate();
-    startExecuteCreateNote(date, name.value, noteText.value).catch(() =>
+    startExecuteCreateNote(name.value, noteText.value).catch(() =>
       errorHandle()
     );
     inputNote.reset();
@@ -236,10 +236,10 @@
       <form style="--display-value: {displayValue}" bind:this={inputNote}>
         <input
           type="text"
-          id="author-text"
-          name="authorInput"
+          id="name-text"
+          name="nameInput"
           maxlength="15"
-          placeholder="Input your name"
+          placeholder="Input note name"
           bind:this={name}
         />
         <textarea
@@ -300,11 +300,11 @@
       </div>
     {:else}
       <ul>
-        {#each notes as { author, date, text, id }}
+        {#each notes as { name, date, text, id }}
           <li>
             <a href="#" class="note">
               <h2><strong>Note</strong></h2>
-              <p><strong>Author: {author}</strong></p>
+              <p><strong>Name: {name}</strong></p>
               <p><strong>{text}</strong></p>
               <p><strong>Date: {date}</strong></p>
               <div class="buttonsZone">

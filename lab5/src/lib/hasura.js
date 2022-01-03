@@ -22,10 +22,11 @@ const operationsDoc = `
   }
   query getDataQuery {
     notes {
-      author
-      date
       text
-      id
+			userId
+			id
+			date
+			name
     }
   }
   mutation deleteNote($_eq: uuid) {
@@ -33,11 +34,11 @@ const operationsDoc = `
       affected_rows
     }
   }
-  mutation createNote($date: date = "", $author: String = "", $text: String = "") {
-    insert_notes(objects: {author: $author, date: $date, text: $text}){
-      affected_rows
-    }
+  mutation createNote($name: String = "", $text: String = "", $userId: String = "") {
+  insert_notes(objects: {name: $name, text: $text, userId: $userId}) {
+    affected_rows
   }
+}
 `;
 
 export function doQuery(operationName, variables) {
