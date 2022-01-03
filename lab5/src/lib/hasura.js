@@ -1,8 +1,10 @@
+import { get } from 'svelte/store';
+import { token } from '../store.js';
 async function fetchGraphQL(operationsDoc, operationName, variables) {
 	const result = await fetch(import.meta.env.VITE_API_HTTPS_ENDPOINT, {
 		headers: {
 			'content-type': 'application/json',
-			'x-hasura-admin-secret': import.meta.env.VITE_HASURA_ADMIN,
+			Authorization: `Bearer ${get(token)}`,
 		},
 		method: 'POST',
 		body: JSON.stringify({

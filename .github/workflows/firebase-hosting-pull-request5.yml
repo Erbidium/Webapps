@@ -16,6 +16,8 @@ jobs:
           VITE_HASURA_ADMIN: '${{ secrets.VITE_HASURA_ADMIN5 }}'
           VITE_API_HTTPS_ENDPOINT: '${{ secrets.VITE_API_HTTPS_ENDPOINT5 }}'
           VITE_API_WSS_ENDPOINT: '${{ secrets.VITE_API_WSS_ENDPOINT5 }}'
+          VITE_DOMAIN: '${{ secrets.VITE_DOMAIN }}'
+          VITE_clientId: '${{ secrets.VITE_clientId }}'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

@@ -4,18 +4,21 @@
 
 <script>
   import { doQuery } from '$lib/hasura';
-  import {
+  /*import {
     createClient,
     defaultExchanges,
     subscriptionExchange,
   } from '@urql/core';
   import { createClient as createWSClient } from 'graphql-ws';
   import { setClient, operationStore, subscription } from '@urql/svelte';
+  */
   import { Circle3 } from 'svelte-loading-spinners';
   import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
+  import auth from '../authService';
+  import { isAuthenticated, user } from '../store';
 
-  const wsClient = createWSClient({
+  /*const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
     reconnect: true,
     connectionParams: {
@@ -53,6 +56,7 @@
   `);
 
   setClient(client);
+   */
 
   let notes;
 
@@ -62,13 +66,13 @@
     formBtnDisable = false;
   }
 
-  const handleSubscription = (messages = [], dataNotes) => {
+  /*const handleSubscription = (messages = [], dataNotes) => {
     notes = dataNotes.notes;
     stateReset();
     return [dataNotes.notes, ...messages];
   };
 
-  subscription(messages, handleSubscription);
+  subscription(messages, handleSubscription);*/
 
   async function startExecuteDeleteNote(_eq) {
     showSpinnerNotes = true;
@@ -177,12 +181,6 @@
     displayValue = displayValue !== 'none' ? 'none' : 'flex';
   }
 
-  function getDate() {
-    let today = new Date();
-    return (
-      today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-    );
-  }
   function createNote() {
     if (name.value.length < 3 || noteText.value.length < 10) {
       popUpMessage =
@@ -202,7 +200,17 @@
     startExecuteDeleteAllMutation().catch(() => errorHandle());
   }
 
+  let authClient;
+  let token;
   onMount(async () => {
+    authClient = await auth.createClient();
+    isAuthenticated.set(await authClient.isAuthenticated());
+    const accessToken = await authClient.getIdTokenClaims();
+    if(accessToken)
+    {
+      token=accessToken.__raw;
+    }
+    user.set(await authClient.getUser());
     startFetchMyQuery()
       .then(() => {
         showSpinnerNotes = false;
@@ -213,113 +221,121 @@
         errorOccured = true;
       });
   });
+
+  function login() {
+    auth.loginWithPopup(authClient);
+  }
 </script>
 
 <svelte:head>
   <title>Home</title>
 </svelte:head>
 <div>
-  {#if popUpMessage}
-    <PopUp {popUpMessage} />
-  {/if}
-  {#if errorOccured}
-    <p style="color: red">"Sorry! Error occurred"</p>
-  {:else if !notes}
-    <div style="display: flex;justify-content: center;vertical-align: center;">
-      <Circle3 size="60" unit="px" duration="1s" />
-    </div>
-  {:else}
-    <p>Totally notes: {notes.length}</p>
-    {#if showSpinner}
-      <Circle3 size="60" unit="px" duration="1s" />
-    {:else}
-      <form style="--display-value: {displayValue}" bind:this={inputNote}>
-        <input
-          type="text"
-          id="name-text"
-          name="nameInput"
-          maxlength="15"
-          placeholder="Input note name"
-          bind:this={name}
-        />
-        <textarea
-          id="note-text"
-          placeholder="Write note..."
-          maxlength="60"
-          bind:this={noteText}
-        />
-        <svg
-          id="check-icon"
-          on:click={createNote}
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-check-circle"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-          />
-          <path
-            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
-          />
-        </svg>
-        <svg
-          id="x-icon"
-          on:click={typeNote}
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-x-circle"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-          />
-          <path
-            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-          />
-        </svg>
-      </form>
-      <button class="createNote" on:click={typeNote} disabled={formBtnDisable}
-        >Create note</button
-      >
-      <button
-        class="btnDeleteAll"
-        on:click={deleteAllNotes}
-        disabled={formBtnDisable}>Delete all</button
-      >
+  {#if $isAuthenticated}
+    {#if popUpMessage}
+      <PopUp {popUpMessage} />
     {/if}
-    {#if showSpinnerNotes}
-      <div
-        style="display: flex;justify-content: center;vertical-align: center;"
-      >
+    {#if errorOccured}
+      <p style="color: red">"Sorry! Error occurred"</p>
+    {:else if !notes}
+      <div style="display: flex;justify-content: center;vertical-align: center;">
         <Circle3 size="60" unit="px" duration="1s" />
       </div>
     {:else}
-      <ul>
-        {#each notes as { name, date, text, id }}
-          <li>
-            <a href="#" class="note">
-              <h2><strong>Note</strong></h2>
-              <p><strong>Name: {name}</strong></p>
-              <p><strong>{text}</strong></p>
-              <p><strong>Date: {date}</strong></p>
-              <div class="buttonsZone">
-                <button
-                  class="btnDeleteSpecific"
-                  {id}
-                  on:click={event => onDelete(event)}
-                  disabled={formBtnDisable}>X</button
-                >
-              </div>
-            </a>
-          </li>
-        {/each}
-      </ul>
+      <p>Totally notes: {notes.length}</p>
+      {#if showSpinner}
+        <Circle3 size="60" unit="px" duration="1s" />
+      {:else}
+        <form style="--display-value: {displayValue}" bind:this={inputNote}>
+          <input
+            type="text"
+            id="name-text"
+            name="nameInput"
+            maxlength="15"
+            placeholder="Input note name"
+            bind:this={name}
+          />
+          <textarea
+            id="note-text"
+            placeholder="Write note..."
+            maxlength="60"
+            bind:this={noteText}
+          />
+          <svg
+            id="check-icon"
+            on:click={createNote}
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-check-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+            />
+            <path
+              d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
+            />
+          </svg>
+          <svg
+            id="x-icon"
+            on:click={typeNote}
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-x-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+            />
+            <path
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+            />
+          </svg>
+        </form>
+        <button class="createNote" on:click={typeNote} disabled={formBtnDisable}
+          >Create note</button
+        >
+        <button
+          class="btnDeleteAll"
+          on:click={deleteAllNotes}
+          disabled={formBtnDisable}>Delete all</button
+        >
+      {/if}
+      {#if showSpinnerNotes}
+        <div
+          style="display: flex;justify-content: center;vertical-align: center;"
+        >
+          <Circle3 size="60" unit="px" duration="1s" />
+        </div>
+      {:else}
+        <ul>
+          {#each notes as { name, date, text, id }}
+            <li>
+              <a href="#" class="note">
+                <h2><strong>Note</strong></h2>
+                <p><strong>Name: {name}</strong></p>
+                <p><strong>{text}</strong></p>
+                <p><strong>Date: {date}</strong></p>
+                <div class="buttonsZone">
+                  <button
+                    class="btnDeleteSpecific"
+                    {id}
+                    on:click={event => onDelete(event)}
+                    disabled={formBtnDisable}>X</button
+                  >
+                </div>
+              </a>
+            </li>
+          {/each}
+        </ul>
+      {/if}
     {/if}
+  {:else}
+    <button on:click={login}>Log in</button>
   {/if}
 </div>
 
