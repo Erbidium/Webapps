@@ -36,8 +36,8 @@ const operationsDoc = `
       affected_rows
     }
   }
-  mutation createNote($name: String = "", $text: String = "", $userId: String = "") {
-  insert_notes(objects: {name: $name, text: $text, userId: $userId}) {
+  mutation createNote($name: String = "", $text: String = "") {
+  insert_notes(objects: {name: $name, text: $text}) {
     affected_rows
   }
 }

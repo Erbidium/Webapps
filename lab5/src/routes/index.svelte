@@ -146,8 +146,7 @@
   async function startExecuteCreateNote(name, text) {
     const { errors, data } = await doQuery('createNote', {
       name: name,
-      text: text,
-      userId: 'user_1',
+      text: text
     });
     if (errors) {
       errorHandle(errors);
