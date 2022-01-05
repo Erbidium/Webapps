@@ -283,14 +283,8 @@
           />
         </svg>
       </form>
-      <button class="createNote" on:click={typeNote} disabled={formBtnDisable}
-        >Create note</button
-      >
-      <button
-        class="btnDeleteAll"
-        on:click={deleteAllNotes}
-        disabled={formBtnDisable}>Delete all</button
-      >
+      <button class="createNote" on:click={typeNote} disabled={formBtnDisable}>Create note</button>
+      <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
     {/if}
     {#if showSpinnerNotes}
       <div
