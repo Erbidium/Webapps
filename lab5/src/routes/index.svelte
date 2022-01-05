@@ -24,7 +24,8 @@
     reconnect: true,
     connectionParams: {
       headers: {
-        Authorization: `Bearer ${get(token)}`
+        'content-type': 'application/json',
+        Authorization: `Bearer ${get(token)}`,
       },
     },
   });
