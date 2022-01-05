@@ -298,15 +298,9 @@
             />
           </svg>
         </form>
-        <button class="createNote" on:click={typeNote} disabled={formBtnDisable}
-          >Create note</button
-        >
-        <button
-          class="btnDeleteAll"
-          on:click={deleteAllNotes}
-          disabled={formBtnDisable}>Delete all</button
-        >
-        <button class="btnLogOut" on:click={logout}>Log out</button>
+        <button class="createNote" on:click={typeNote} disabled={formBtnDisable}>Create note</button>
+        <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
+        <button class="btnLogOut" on:click={logout} disabled={formBtnDisable}>Log out</button>
       {/if}
       {#if showSpinnerNotes}
         <div
