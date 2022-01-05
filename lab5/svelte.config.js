@@ -21,16 +21,6 @@ const config = {
 					},
 				},
 			},
-			server: {
-				proxy: {
-					'/api/sendMail': {
-						target: 'http://localhost:5001/lab2-80c36/us-central1/sendMail',
-						changeOrigin: true,
-						secure: false,
-						rewrite: path => path.replace(/^\/api/, ''),
-					},
-				},
-			},
 		},
 	},
 
