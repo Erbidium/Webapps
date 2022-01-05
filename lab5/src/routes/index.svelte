@@ -4,27 +4,27 @@
 
 <script>
   import { doQuery } from '$lib/hasura';
-  /*import {
+  import {
     createClient,
     defaultExchanges,
     subscriptionExchange,
   } from '@urql/core';
   import { createClient as createWSClient } from 'graphql-ws';
   import { setClient, operationStore, subscription } from '@urql/svelte';
-  */
+
   import { Circle3 } from 'svelte-loading-spinners';
   import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
   import auth from '../authService';
   import { isAuthenticated, user, token } from '../store';
+  import { get } from 'svelte/store';
 
-  /*const wsClient = createWSClient({
+  const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
     reconnect: true,
     connectionParams: {
       headers: {
-        'content-type': 'application/json',
-        'x-hasura-admin-secret': import.meta.env.VITE_HASURA_ADMIN,
+        Authorization: `Bearer ${get(token)}`
       },
     },
   });
@@ -56,7 +56,7 @@
   `);
 
   setClient(client);
-   */
+
 
   let notes;
 
@@ -66,13 +66,15 @@
     formBtnDisable = false;
   }
 
-  /*const handleSubscription = (messages = [], dataNotes) => {
+  const handleSubscription = (messages = [], dataNotes) => {
     notes = dataNotes.notes;
+    console.log('subscriptions:');
+    console.log(dataNotes.notes);
     stateReset();
     return [dataNotes.notes, ...messages];
   };
 
-  subscription(messages, handleSubscription);*/
+  subscription(messages, handleSubscription);
 
   async function startExecuteDeleteNote(_eq) {
     showSpinnerNotes = true;
