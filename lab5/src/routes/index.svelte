@@ -214,8 +214,6 @@
       token.set(accessToken.__raw);
     }
     user.set(await authClient.getUser());
-    console.log(isAuthenticated);
-    console.log(notes);
   });
 
   function login() {
@@ -231,7 +229,11 @@
   <title>Home</title>
 </svelte:head>
 <div>
-  {#if $isAuthenticated}
+  {#if !authClient}
+    <div style="display: flex;justify-content: center;vertical-align: center;">
+      <Circle3 size="60" unit="px" duration="1s" />
+    </div>
+  {:else if $isAuthenticated}
     {#if popUpMessage}
       <PopUp {popUpMessage} />
     {/if}
