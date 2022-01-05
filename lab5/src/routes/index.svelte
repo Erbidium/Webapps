@@ -332,6 +332,7 @@
       {/if}
     {/if}
   {:else}
+    <p>You should login to use application</p>
     <button class='btnLogIn' on:click={login}>Log in</button>
   {/if}
 </div>
