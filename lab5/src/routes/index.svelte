@@ -68,8 +68,6 @@
 
   const handleSubscription = (messages = [], dataNotes) => {
     notes = dataNotes.notes;
-    console.log('subscriptions:');
-    console.log(dataNotes.notes);
     stateReset();
     return [dataNotes.notes, ...messages];
   };

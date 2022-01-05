@@ -19,7 +19,6 @@ async function loginWithPopup(client, options) {
 		user.set(await client.getUser());
 		const accessToken = await client.getIdTokenClaims();
 		token.set(accessToken.__raw);
-		console.log(accessToken);
 		isAuthenticated.set(true);
 	} catch (e) {
 		// eslint-disable-next-line
