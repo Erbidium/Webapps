@@ -17,7 +17,12 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
 const operationsDoc = `
   mutation deleteAllMutation {
     delete_notes(where: {}) {
-      affected_rows
+      returning {
+				author
+				date
+				id
+				text
+    	}
     }
   }
   query getDataQuery {
@@ -30,12 +35,22 @@ const operationsDoc = `
   }
   mutation deleteNote($_eq: uuid) {
     delete_notes(where: {id: {_eq: $_eq}}) {
-      affected_rows
+      returning {
+				author
+				date
+				id
+				text
+    	}
     }
   }
   mutation createNote($date: date = "", $author: String = "", $text: String = "") {
     insert_notes(objects: {author: $author, date: $date, text: $text}){
-      affected_rows
+      returning {
+				author
+				date
+				id
+				text
+    	}
     }
   }
 `;

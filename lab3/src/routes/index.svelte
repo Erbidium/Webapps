@@ -79,12 +79,9 @@
       console.error(errors);
       errorHandle(errors);
     }
-    startFetchMyQuery()
-      .then(() => {
-        formBtnDisable = false;
-        showSpinnerNotes = false;
-      })
-      .catch(() => errorHandle());
+    notes = data.notes;
+    formBtnDisable = false;
+    showSpinnerNotes = false;
   }
 
   async function startFetchMyQuery() {
@@ -109,12 +106,9 @@
       console.error(errors);
       errorHandle(errors);
     }
-    startFetchMyQuery()
-      .then(() => {
-        formBtnDisable = false;
-        showSpinnerNotes = false;
-      })
-      .catch(() => errorHandle());
+    notes = data.notes;
+    formBtnDisable = false;
+    showSpinnerNotes = false;
   }
 
   let popUpMessage;
@@ -143,12 +137,9 @@
       errorHandle(errors);
       console.error(errors);
     }
-    startFetchMyQuery()
-      .then(() => {
-        formBtnDisable = false;
-        showSpinner = false;
-      })
-      .catch(() => errorHandle());
+    notes = data.notes;
+    formBtnDisable = false;
+    showSpinnerNotes = false;
   }
 
   function onDelete(event) {
