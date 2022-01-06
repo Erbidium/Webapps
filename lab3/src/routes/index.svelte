@@ -125,6 +125,9 @@
   }
 
   async function startExecuteCreateNote(date, author, text) {
+    formBtnDisable = true;
+    showSpinner = true;
+
     const { errors, data } = await doQuery('createNote', {
       date: date,
       author: author,
@@ -177,8 +180,6 @@
       setTimeout(() => (popUpMessage = ''), 4000);
       return;
     }
-    showSpinner = true;
-    formBtnDisable = true;
     let date = getDate();
     startExecuteCreateNote(date, name.value, noteText.value).catch(() =>
       errorHandle()
