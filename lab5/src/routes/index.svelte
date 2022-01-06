@@ -30,11 +30,11 @@
       errorHandle(errors);
     }
     startFetchMyQuery()
-      .then(() => {
+      .catch(() => errorHandle())
+      .finally(() => {
         formBtnDisable = false;
         showSpinnerNotes = false;
-      })
-      .catch(() => errorHandle());
+      });
   }
 
   async function startFetchMyQuery() {
@@ -60,11 +60,11 @@
       errorHandle(errors);
     }
     startFetchMyQuery()
-      .then(() => {
+      .catch(() => errorHandle())
+      .finally(() => {
         formBtnDisable = false;
         showSpinnerNotes = false;
-      })
-      .catch(() => errorHandle());
+      });
   }
 
   token.subscribe(async(tokenValue) => {
@@ -102,11 +102,11 @@
       console.error(errors);
     }
     startFetchMyQuery()
-      .then(() => {
+      .catch(() => errorHandle())
+      .finally(() => {
         formBtnDisable = false;
         showSpinner = false;
-      })
-      .catch(() => errorHandle());
+      });
   }
 
   function onDelete(event) {
