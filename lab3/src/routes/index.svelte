@@ -55,7 +55,6 @@
   let notes;
 
   function stateReset() {
-    showSpinner = false;
     showSpinnerNotes = false;
     formBtnDisable = false;
   }
@@ -126,7 +125,8 @@
 
   async function startExecuteCreateNote(date, author, text) {
     formBtnDisable = true;
-    showSpinner = true;
+    showSpinnerNotes = true;
+    disableNote();
 
     const { errors, data } = await doQuery('createNote', {
       date: date,
@@ -136,10 +136,11 @@
     if (errors) {
       errorHandle(errors);
       console.error(errors);
+      displayNote();
     }
     notes = data.notes;
     formBtnDisable = false;
-    showSpinner = false;
+    showSpinnerNotes = false;
   }
 
   function onDelete(event) {
@@ -153,7 +154,6 @@
 
   let formBtnDisable = false;
 
-  let showSpinner = false;
   let showSpinnerNotes = false;
 
   let errorOccured = false;
@@ -161,6 +161,9 @@
 
   function disableNote() {
     displayValue = 'none';
+  }
+  function displayNote() {
+    displayValue = 'flex';
   }
 
   function typeNote() {
@@ -181,8 +184,9 @@
       return;
     }
     let date = getDate();
-    startExecuteCreateNote(date, name.value, noteText.value).catch(() =>
-      errorHandle()
+    startExecuteCreateNote(date, name.value, noteText.value).catch(() =>{
+      errorHandle();
+      displayNote();}
     );
     inputNote.reset();
   }
@@ -197,7 +201,6 @@
       errorOccured = true;
     }).finally((() => {
     showSpinnerNotes = false;
-    showSpinner = false;
   }));
   subscription(messages, handleSubscription);
 </script>
@@ -211,96 +214,84 @@
   {/if}
   {#if errorOccured}
     <p style="color: red">"Sorry! Error occurred"</p>
-  {:else if !notes}
+  {:else if !notes || showSpinnerNotes}
     <div style="display: flex;justify-content: center;vertical-align: center;">
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
   {:else}
     <p>Totally notes: {notes.length}</p>
-    {#if showSpinner}
-      <Circle3 size="60" unit="px" duration="1s" />
-    {:else}
-      <form style="--display-value: {displayValue}" bind:this={inputNote}>
-        <input
-          type="text"
-          id="author-text"
-          name="authorInput"
-          maxlength="15"
-          placeholder="Input your name"
-          bind:this={name}
-        />
-        <textarea
-          id="note-text"
-          placeholder="Write note..."
-          maxlength="60"
-          bind:this={noteText}
-        />
-        <svg
-          id="check-icon"
-          on:click={createNote}
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-check-circle"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-          />
-          <path
-            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
-          />
-        </svg>
-        <svg
-          id="x-icon"
-          on:click={typeNote}
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-x-circle"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-          />
-          <path
-            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-          />
-        </svg>
-      </form>
-      <button class="createNote" on:click={typeNote} disabled={formBtnDisable}>Create note</button>
-      <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
-    {/if}
-    {#if showSpinnerNotes}
-      <div
-        style="display: flex;justify-content: center;vertical-align: center;"
+    <form style="--display-value: {displayValue}" bind:this={inputNote}>
+      <input
+        type="text"
+        id="author-text"
+        name="authorInput"
+        maxlength="15"
+        placeholder="Input your name"
+        bind:this={name}
+      />
+      <textarea
+        id="note-text"
+        placeholder="Write note..."
+        maxlength="60"
+        bind:this={noteText}
+      />
+      <svg
+        id="check-icon"
+        on:click={createNote}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-check-circle"
+        viewBox="0 0 16 16"
       >
-        <Circle3 size="60" unit="px" duration="1s" />
-      </div>
-    {:else}
-      <ul>
-        {#each notes as note (note.id)}
-          <li>
-            <a href="#" class="note">
-              <h2><strong>Note</strong></h2>
-              <p><strong>Author: {note.author}</strong></p>
-              <p><strong>{note.text}</strong></p>
-              <p><strong>Date: {note.date}</strong></p>
-              <div class="buttonsZone">
-                <button
-                  class="btnDeleteSpecific"
-                  id={note.id}
-                  on:click={event => onDelete(event)}
-                  disabled={formBtnDisable}>X</button
-                >
-              </div>
-            </a>
-          </li>
-        {/each}
-      </ul>
-    {/if}
+        <path
+          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+        />
+        <path
+          d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
+        />
+      </svg>
+      <svg
+        id="x-icon"
+        on:click={typeNote}
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-x-circle"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+        />
+        <path
+          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+        />
+      </svg>
+    </form>
+    <button class="createNote" on:click={typeNote} disabled={formBtnDisable}>Create note</button>
+    <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
+    <ul>
+      {#each notes as note (note.id)}
+        <li>
+          <a href="#" class="note">
+            <h2><strong>Note</strong></h2>
+            <p><strong>Author: {note.author}</strong></p>
+            <p><strong>{note.text}</strong></p>
+            <p><strong>Date: {note.date}</strong></p>
+            <div class="buttonsZone">
+              <button
+                class="btnDeleteSpecific"
+                id={note.id}
+                on:click={event => onDelete(event)}
+                disabled={formBtnDisable}>X</button
+              >
+            </div>
+          </a>
+        </li>
+      {/each}
+    </ul>
   {/if}
 </div>
 
