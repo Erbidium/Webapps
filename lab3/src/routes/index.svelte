@@ -136,7 +136,7 @@
     }
     notes = data.notes;
     formBtnDisable = false;
-    showSpinnerNotes = false;
+    showSpinner = false;
   }
 
   function onDelete(event) {
