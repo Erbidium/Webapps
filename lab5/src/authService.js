@@ -22,7 +22,8 @@ async function loginWithPopup(client, options) {
 		isAuthenticated.set(true);
 	} catch (e) {
 		console.error(e);
-		popUpMessage.set(`Cannot login. ${e?.message ?? ''}`);
+		popUpMessage.set(`Error. ${e?.message ?? ''}`);
+		setTimeout(() => popUpMessage.set(''), 2000);
 	} finally {
 		popupOpen.set(false);
 	}
