@@ -280,17 +280,17 @@
       </div>
     {:else}
       <ul>
-        {#each notes as { author, date, text, id }}
+        {#each notes as note (note.id)}
           <li>
             <a href="#" class="note">
               <h2><strong>Note</strong></h2>
-              <p><strong>Author: {author}</strong></p>
-              <p><strong>{text}</strong></p>
-              <p><strong>Date: {date}</strong></p>
+              <p><strong>Author: {note.author}</strong></p>
+              <p><strong>{note.text}</strong></p>
+              <p><strong>Date: {note.date}</strong></p>
               <div class="buttonsZone">
                 <button
                   class="btnDeleteSpecific"
-                  {id}
+                  {note.id}
                   on:click={event => onDelete(event)}
                   disabled={formBtnDisable}>X</button
                 >
