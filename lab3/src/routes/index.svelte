@@ -12,7 +12,6 @@
   import { createClient as createWSClient } from 'graphql-ws';
   import { setClient, operationStore, subscription } from '@urql/svelte';
   import { Circle3 } from 'svelte-loading-spinners';
-  import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
 
   const wsClient = createWSClient({
@@ -66,8 +65,6 @@
     stateReset();
     return [dataNotes.notes, ...messages];
   };
-
-  subscription(messages, handleSubscription);
 
   async function startExecuteDeleteNote(_eq) {
     showSpinnerNotes = true;
@@ -193,17 +190,16 @@
     startExecuteDeleteAllMutation().catch(() => errorHandle());
   }
 
-  onMount(async () => {
-    startFetchMyQuery()
-      .then(() => {
-        showSpinnerNotes = false;
-        showSpinner = false;
-      })
-      .catch(() => {
-        errorHandle();
-        errorOccured = true;
-      });
-  });
+  startFetchMyQuery()
+    .then(() => {
+      showSpinnerNotes = false;
+      showSpinner = false;
+    })
+    .catch(() => {
+      errorHandle();
+      errorOccured = true;
+    });
+  subscription(messages, handleSubscription);
 </script>
 
 <svelte:head>
