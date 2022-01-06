@@ -70,11 +70,11 @@
   token.subscribe(async(tokenValue) => {
     if(tokenValue!=='') {
       startFetchMyQuery()
-        .then(() => {
+        .catch(() => errorHandle())
+        .finally(() => {
           formBtnDisable = false;
           showSpinnerNotes = false;
-        })
-        .catch(() => errorHandle());
+        });
     }
   })
 
