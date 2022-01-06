@@ -8,7 +8,7 @@
   import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
   import auth from '../authService';
-  import { isAuthenticated, user, token } from '../store';
+  import { isAuthenticated, user, token, offline } from '../store';
 
 
   let notes;
@@ -174,13 +174,22 @@
   function logout() {
     auth.logout(authClient);
   }
+
+  window.onoffline = () => {
+    offline.set(true);
+  };
+  window.ononline = () => {
+    offline.set(false);
+  };
 </script>
 
 <svelte:head>
   <title>Home</title>
 </svelte:head>
 <div>
-  {#if !authClient}
+  {#if $offline}
+    <p style="color: red">"No internet connection!"</p>
+  {:else if !authClient}
     <div style="display: flex;justify-content: center;vertical-align: center;">
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
