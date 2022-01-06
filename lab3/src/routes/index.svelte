@@ -191,14 +191,13 @@
   }
 
   startFetchMyQuery()
-    .then(() => {
-      showSpinnerNotes = false;
-      showSpinner = false;
-    })
     .catch(() => {
       errorHandle();
       errorOccured = true;
-    });
+    }).finally((() => {
+    showSpinnerNotes = false;
+    showSpinner = false;
+  }));
   subscription(messages, handleSubscription);
 </script>
 
