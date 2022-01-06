@@ -59,6 +59,12 @@
       console.error(errors);
       errorHandle(errors);
     }
+    startFetchMyQuery()
+      .then(() => {
+        formBtnDisable = false;
+        showSpinnerNotes = false;
+      })
+      .catch(() => errorHandle());
   }
 
   token.subscribe(async(tokenValue) => {
