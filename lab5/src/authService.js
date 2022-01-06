@@ -1,7 +1,7 @@
 // https://auth0.com/blog/authenticating-svelte-apps/
 // Use this guide to add auth0 authentication
 import createAuth0Client from '@auth0/auth0-spa-js';
-import { user, isAuthenticated, popupOpen, token } from './store';
+import { user, isAuthenticated, popupOpen, token, popUpMessage } from './store';
 import config from './auth_config';
 
 async function createClient() {
@@ -21,8 +21,8 @@ async function loginWithPopup(client, options) {
 		token.set(accessToken.__raw);
 		isAuthenticated.set(true);
 	} catch (e) {
-		// eslint-disable-next-line
 		console.error(e);
+		popUpMessage.set(`Cannot login. ${e?.message ?? ''}`);
 	} finally {
 		popupOpen.set(false);
 	}

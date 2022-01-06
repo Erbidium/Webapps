@@ -1,9 +1,9 @@
 <script>
-  export let popUpMessage;
+  import { popUpMessage } from '../../store';
 </script>
 
 <p>
-  {popUpMessage}
+  {$popUpMessage}
 </p>
 
 <style>

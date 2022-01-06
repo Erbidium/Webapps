@@ -8,7 +8,7 @@
   import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
   import auth from '../authService';
-  import { isAuthenticated, user, token, offline } from '../store';
+  import { isAuthenticated, user, token, offline, popUpMessage } from '../store';
 
 
   let notes;
@@ -78,19 +78,17 @@
     }
   })
 
-  let popUpMessage;
-
   function errorHandle(errors) {
     stateReset();
     if (
       errors?.message === 'hasura cloud limit of 60 requests/minute exceeded'
     ) {
-      popUpMessage = 'Too many requests. Try later';
-      setTimeout(() => (popUpMessage = ''), 2000);
+      $popUpMessage = 'Too many requests. Try later';
+      setTimeout(() => ($popUpMessage = ''), 2000);
       return true;
     }
-    popUpMessage = `Server Error ${errors?.message ?? ''}`;
-    setTimeout(() => (popUpMessage = ''), 2000);
+    $popUpMessage = `Server Error ${errors?.message ?? ''}`;
+    setTimeout(() => ($popUpMessage = ''), 2000);
     return true;
   }
 
@@ -138,9 +136,8 @@
 
   function createNote() {
     if (name.value.length < 3 || noteText.value.length < 10) {
-      popUpMessage =
-        'Name should have at least 3 symbols and note should have at least 10 symbols';
-      setTimeout(() => (popUpMessage = ''), 4000);
+      $popUpMessage = 'Name should have at least 3 symbols and note should have at least 10 symbols';
+      setTimeout(() => ($popUpMessage = ''), 4000);
       return;
     }
     showSpinner = true;
@@ -187,6 +184,9 @@
   <title>Home</title>
 </svelte:head>
 <div>
+  {#if $popUpMessage && !$offline}
+    <PopUp/>
+  {/if}
   {#if $offline}
     <p style="color: var(--error-color)">"No internet connection!"</p>
   {:else if !authClient}
@@ -194,9 +194,6 @@
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
   {:else if $isAuthenticated}
-    {#if popUpMessage}
-      <PopUp {popUpMessage} />
-    {/if}
     {#if errorOccured}
       <p style="color: var(--error-color)">"Sorry! Error occurred"</p>
     {:else if !notes}
