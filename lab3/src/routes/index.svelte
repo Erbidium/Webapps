@@ -290,7 +290,7 @@
               <div class="buttonsZone">
                 <button
                   class="btnDeleteSpecific"
-                  {note.id}
+                  id={note.id}
                   on:click={event => onDelete(event)}
                   disabled={formBtnDisable}>X</button
                 >
