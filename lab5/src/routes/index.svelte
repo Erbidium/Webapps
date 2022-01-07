@@ -93,6 +93,9 @@
   }
 
   async function startExecuteCreateNote(name, text) {
+    showSpinner = true;
+    formBtnDisable = true;
+
     const { errors, data } = await doQuery('createNote', {
       name: name,
       text: text
@@ -140,8 +143,6 @@
       setTimeout(() => ($popUpMessage = ''), 4000);
       return;
     }
-    showSpinner = true;
-    formBtnDisable = true;
     startExecuteCreateNote(name.value, noteText.value).catch(() =>
       errorHandle()
     );
