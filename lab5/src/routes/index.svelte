@@ -8,7 +8,7 @@
   import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
   import auth from '../authService';
-  import { isAuthenticated, user, token, offline, popUpMessage } from '../store';
+  import { isAuthenticated, token, offline, popUpMessage } from '../store';
 
 
   let notes;
@@ -158,12 +158,8 @@
   onMount(async () => {
     authClient = await auth.createClient();
     isAuthenticated.set(await authClient.isAuthenticated());
-    const accessToken = await authClient.getIdTokenClaims();
-    if(accessToken)
-    {
-      token.set(accessToken.__raw);
-    }
-    user.set(await authClient.getUser());
+    const authorizationToken = await authClient.getIdTokenClaims();
+    $token = authorizationToken?.__raw ?? '';
   });
 
   function login() {
