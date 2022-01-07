@@ -29,10 +29,8 @@
       errorHandle(errors);
     }
     startFetchMyQuery()
-      .catch(() => errorHandle())
-      .finally(() => {
-        stateReset();
-      });
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   async function startFetchMyQuery() {
@@ -58,16 +56,14 @@
       errorHandle(errors);
     }
     startFetchMyQuery()
-      .catch(() => errorHandle())
-      .finally(() => {
-        stateReset();
-      });
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   token.subscribe(async(tokenValue) => {
     if(tokenValue!=='') {
       startFetchMyQuery()
-        .catch(() => errorHandle())
+        .catch(errorHandle)
         .finally(() => {
           formBtnDisable = false;
           showSpinnerNotes = false;
@@ -104,15 +100,14 @@
       displayNote();
     }
     startFetchMyQuery()
-      .catch(() => errorHandle())
-      .finally(() => {
-        stateReset();
-      });
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   function onDelete(event) {
     const targetElement = event.target;
-    startExecuteDeleteNote(targetElement.id).catch(() => errorHandle());
+    startExecuteDeleteNote(targetElement.id)
+      .catch(errorHandle);
   }
 
   let inputNote;
@@ -151,7 +146,8 @@
   }
 
   function deleteAllNotes() {
-    startExecuteDeleteAllMutation().catch(() => errorHandle());
+    startExecuteDeleteAllMutation()
+      .catch(errorHandle);
   }
 
   let authClient;
