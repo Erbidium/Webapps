@@ -137,7 +137,7 @@
       .catch(() => {
         errorHandle();
         displayNote();
-      }).finally(stateReset);;
+      }).finally(stateReset);
     inputNote.reset();
   }
 
@@ -180,7 +180,7 @@
   {#if $offline}
     <p style="color: var(--error-color)">"No internet connection!"</p>
   {:else if !authClient}
-    <div div class="spinner-wrap">
+    <div class="spinner-wrap">
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
   {:else if $isAuthenticated}
