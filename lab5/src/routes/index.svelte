@@ -28,9 +28,7 @@
       console.error(errors);
       errorHandle(errors);
     }
-    startFetchMyQuery()
-      .catch(errorHandle)
-      .finally(stateReset);
+    await startFetchMyQuery();
   }
 
   async function startFetchMyQuery() {
@@ -55,9 +53,7 @@
       console.error(errors);
       errorHandle(errors);
     }
-    startFetchMyQuery()
-      .catch(errorHandle)
-      .finally(stateReset);
+    await startFetchMyQuery();
   }
 
   token.subscribe(async(tokenValue) => {
@@ -99,15 +95,14 @@
       console.error(errors);
       displayNote();
     }
-    startFetchMyQuery()
-      .catch(errorHandle)
-      .finally(stateReset);
+    await startFetchMyQuery();
   }
 
   function onDelete(event) {
     const targetElement = event.target;
     startExecuteDeleteNote(targetElement.id)
-      .catch(errorHandle);
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   let inputNote;
@@ -138,16 +133,18 @@
       setTimeout(() => ($popUpMessage = ''), 4000);
       return;
     }
-    startExecuteCreateNote(name.value, noteText.value).catch(() => {
-      errorHandle();
-      displayNote();
-    });
+    startExecuteCreateNote(name.value, noteText.value)
+      .catch(() => {
+        errorHandle();
+        displayNote();
+      }).finally(stateReset);;
     inputNote.reset();
   }
 
   function deleteAllNotes() {
     startExecuteDeleteAllMutation()
-      .catch(errorHandle);
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   let authClient;
