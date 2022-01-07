@@ -181,10 +181,10 @@
       return;
     }
     let date = getDate();
-    startExecuteCreateNote(date, name.value, noteText.value).catch(() =>{
+    startExecuteCreateNote(date, name.value, noteText.value).catch(() => {
       errorHandle();
-      displayNote();}
-    );
+      displayNote();
+    });
     inputNote.reset();
   }
 
