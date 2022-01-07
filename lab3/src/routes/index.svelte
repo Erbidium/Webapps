@@ -76,8 +76,7 @@
       errorHandle(errors);
     }
     notes = data.notes;
-    formBtnDisable = false;
-    showSpinnerNotes = false;
+    stateReset();
   }
 
   async function startFetchMyQuery() {
@@ -103,8 +102,7 @@
       errorHandle(errors);
     }
     notes = data.notes;
-    formBtnDisable = false;
-    showSpinnerNotes = false;
+    stateReset();
   }
 
   let popUpMessage;
@@ -139,8 +137,7 @@
       displayNote();
     }
     notes = data.notes;
-    formBtnDisable = false;
-    showSpinnerNotes = false;
+    stateReset();
   }
 
   function onDelete(event) {
