@@ -214,7 +214,7 @@
   {#if errorOccured}
     <p style="color: var(--error-color)">"Sorry! Error occurred"</p>
   {:else if !notes || showSpinnerNotes}
-    <div style="display: flex;justify-content: center;vertical-align: center;">
+    <div class="spinner-wrap">
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
   {:else}
@@ -318,5 +318,10 @@
     color: gray;
     font-family: inherit;
     font-size: inherit;
+  }
+  .spinner-wrap {
+      display: flex;
+      justify-content: center;
+      vertical-align: center;
   }
 </style>
