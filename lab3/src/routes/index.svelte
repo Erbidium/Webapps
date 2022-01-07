@@ -297,13 +297,15 @@
 <style>
   :root {
     --error-color: red;
+    --bg-color: transparent;
+    --textarea-color: gray;
   }
   form {
     display: var(--display-value);
   }
   input {
     width: 100%;
-    background-color: transparent;
+    background-color: var(--bg-color);
     border: none;
     font-family: inherit;
     font-size: inherit;
@@ -313,18 +315,18 @@
     height: 30px;
   }
   textarea {
-    background-color: transparent;
+    background-color: var(--bg-color);
     border: none;
-    color: gray;
+    color: var(--textarea-color);
     font-family: inherit;
     font-size: inherit;
   }
   .spinner-wrap {
-      display: flex;
-      justify-content: center;
-      vertical-align: center;
+    display: flex;
+    justify-content: center;
+    vertical-align: center;
   }
   .error-text {
-      color: var(--error-color);
+    color: var(--error-color);
   }
 </style>
