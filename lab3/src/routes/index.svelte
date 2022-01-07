@@ -212,7 +212,7 @@
     <PopUp {popUpMessage} />
   {/if}
   {#if errorOccured}
-    <p style="color: red">"Sorry! Error occurred"</p>
+    <p style="color: var(--error-color)">"Sorry! Error occurred"</p>
   {:else if !notes || showSpinnerNotes}
     <div style="display: flex;justify-content: center;vertical-align: center;">
       <Circle3 size="60" unit="px" duration="1s" />
@@ -295,6 +295,9 @@
 </div>
 
 <style>
+  :root {
+    --error-color: red;
+  }
   form {
     display: var(--display-value);
   }
