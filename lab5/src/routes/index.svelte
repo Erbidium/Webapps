@@ -160,6 +160,12 @@
     isAuthenticated.set(await authClient.isAuthenticated());
     const authorizationToken = await authClient.getIdTokenClaims();
     $token = authorizationToken?.__raw ?? '';
+    window.onoffline = () => {
+      offline.set(true);
+    };
+    window.ononline = () => {
+      offline.set(false);
+    };
   });
 
   function login() {
@@ -169,13 +175,6 @@
   function logout() {
     auth.logout(authClient);
   }
-
-  window.onoffline = () => {
-    offline.set(true);
-  };
-  window.ononline = () => {
-    offline.set(false);
-  };
 </script>
 
 <svelte:head>
