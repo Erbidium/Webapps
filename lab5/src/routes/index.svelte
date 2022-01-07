@@ -31,8 +31,7 @@
     startFetchMyQuery()
       .catch(() => errorHandle())
       .finally(() => {
-        formBtnDisable = false;
-        showSpinnerNotes = false;
+        stateReset();
       });
   }
 
@@ -61,8 +60,7 @@
     startFetchMyQuery()
       .catch(() => errorHandle())
       .finally(() => {
-        formBtnDisable = false;
-        showSpinnerNotes = false;
+        stateReset();
       });
   }
 
@@ -108,8 +106,7 @@
     startFetchMyQuery()
       .catch(() => errorHandle())
       .finally(() => {
-        formBtnDisable = false;
-        showSpinnerNotes = false;
+        stateReset();
       });
   }
 
