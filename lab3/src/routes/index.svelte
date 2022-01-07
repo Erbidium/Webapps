@@ -212,7 +212,7 @@
     <PopUp {popUpMessage} />
   {/if}
   {#if errorOccured}
-    <p style="color: var(--error-color)">"Sorry! Error occurred"</p>
+    <p class="error-text">"Sorry! Error occurred"</p>
   {:else if !notes || showSpinnerNotes}
     <div class="spinner-wrap">
       <Circle3 size="60" unit="px" duration="1s" />
@@ -323,5 +323,8 @@
       display: flex;
       justify-content: center;
       vertical-align: center;
+  }
+  .error-text {
+      color: var(--error-color);
   }
 </style>
