@@ -142,7 +142,8 @@
 
   function onDelete(event) {
     const targetElement = event.target;
-    startExecuteDeleteNote(targetElement.id).catch(() => errorHandle());
+    startExecuteDeleteNote(targetElement.id)
+      .catch(errorHandle);
   }
 
   let inputNote;
@@ -189,7 +190,8 @@
   }
 
   function deleteAllNotes() {
-    startExecuteDeleteAllMutation().catch(() => errorHandle());
+    startExecuteDeleteAllMutation()
+      .catch(errorHandle);
   }
 
   startFetchMyQuery()
