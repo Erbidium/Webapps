@@ -76,7 +76,6 @@
       errorHandle(errors);
     }
     notes = data.notes;
-    stateReset();
   }
 
   async function startFetchMyQuery() {
@@ -102,7 +101,6 @@
       errorHandle(errors);
     }
     notes = data.notes;
-    stateReset();
   }
 
   let popUpMessage;
@@ -137,13 +135,13 @@
       displayNote();
     }
     notes = data.notes;
-    stateReset();
   }
 
   function onDelete(event) {
     const targetElement = event.target;
     startExecuteDeleteNote(targetElement.id)
-      .catch(errorHandle);
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   let inputNote;
@@ -182,16 +180,18 @@
       return;
     }
     let date = getDate();
-    startExecuteCreateNote(date, name.value, noteText.value).catch(() => {
-      errorHandle();
-      displayNote();
-    });
+    startExecuteCreateNote(date, name.value, noteText.value)
+      .catch(() => {
+        errorHandle();
+        displayNote();
+      }).finally(stateReset);
     inputNote.reset();
   }
 
   function deleteAllNotes() {
     startExecuteDeleteAllMutation()
-      .catch(errorHandle);
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   startFetchMyQuery()
