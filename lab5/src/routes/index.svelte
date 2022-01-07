@@ -178,14 +178,14 @@
     <PopUp/>
   {/if}
   {#if $offline}
-    <p style="color: var(--error-color)">"No internet connection!"</p>
+    <p class="error-text">"No internet connection!"</p>
   {:else if !authClient}
     <div class="spinner-wrap">
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
   {:else if $isAuthenticated}
     {#if errorOccured}
-      <p style="color: var(--error-color)">"Sorry! Error occurred"</p>
+      <p class="error-text">"Sorry! Error occurred"</p>
     {:else if !notes  || showSpinnerNotes}
       <div class="spinner-wrap">
         <Circle3 size="60" unit="px" duration="1s" />
@@ -301,5 +301,8 @@
     display: flex;
     justify-content: center;
     vertical-align: center;
+  }
+  .error-text {
+    color: var(--error-color);
   }
 </style>
