@@ -26,7 +26,7 @@ const operationsDoc = `
     }
   }
   query getDataQuery {
-    notes {
+    notes(order_by: {date: desc, time: desc}) {
       author
       date
       text

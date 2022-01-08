@@ -42,7 +42,7 @@
 
   const messages = operationStore(`
     subscription MySubscription {
-    notes {
+    notes(order_by: {date: desc, time: desc}) {
       author
       date
       id
@@ -124,7 +124,7 @@
       throw errors;
     }
     note = {};
-    notes.push(data.insert_notes.returning[0]);
+    notes.unshift(data.insert_notes.returning[0]);
   }
 
   function onDelete(event) {
