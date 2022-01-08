@@ -74,7 +74,7 @@
     if (errors) {
       throw errors;
     }
-    notes = data.notes;
+    notes.splice(notes.findIndex(note => note.id === _eq), 1);
   }
 
   async function startFetchMyQuery() {
@@ -95,7 +95,7 @@
     if (errors) {
       throw errors;
     }
-    notes = data.notes;
+    notes = {};
   }
 
   function errorHandle(errors) {
@@ -123,7 +123,8 @@
     if (errors) {
       throw errors;
     }
-    notes = data.notes;
+    note = {};
+    notes.push(data.insert_notes.returning[0]);
   }
 
   function onDelete(event) {
@@ -163,7 +164,6 @@
         errorHandle();
         displayNote();
       }).finally(stateReset);
-    note = {};
   }
 
   function deleteAllNotes() {
