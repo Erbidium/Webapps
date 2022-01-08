@@ -133,16 +133,13 @@
       .finally(stateReset);
   }
 
-  let inputNote;
-  let name;
-  let noteText;
+  let note = {};
 
   let formBtnDisable = false;
 
   let showSpinnerNotes = false;
 
   let errorOccured = false;
-  let displayValue = 'none';
 
   function disableNote() {
     noteActive = false;
@@ -157,17 +154,17 @@
     );
   }
   function createNote() {
-    if (name.value.length < 3 || noteText.value.length < 10) {
+    if (note.name.length < 3 || note.text.length < 10) {
       $popUpMessage = 'Name should have at least 3 symbols and note should have at least 10 symbols';
       return;
     }
     let date = getDate();
-    startExecuteCreateNote(date, name.value, noteText.value)
+    startExecuteCreateNote(date, note.name, note.text)
       .catch(() => {
         errorHandle();
         displayNote();
       }).finally(stateReset);
-    inputNote.reset();
+    note = {};
   }
 
   function deleteAllNotes() {
@@ -201,18 +198,19 @@
     </div>
   {:else}
     <p>Totally notes: {notes.length}</p>
-    <form class:activated={noteActive} bind:this={inputNote}>
+    <form class:activated={noteActive}>
       <input
         type="text"
         name="authorInput"
         maxlength="15"
         placeholder="Input your name"
-        bind:this={name}
+        bind:value={note.name}
       />
       <textarea
+        name="noteText"
         placeholder="Write note..."
         maxlength="60"
-        bind:this={noteText}
+        bind:value={note.text}
       />
       <svg
         class="check-icon"
