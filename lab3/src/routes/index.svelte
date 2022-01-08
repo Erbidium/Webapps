@@ -54,6 +54,7 @@
   setClient(client);
 
   let notes;
+  let noteActive = false;
 
   function stateReset() {
     showSpinnerNotes = false;
@@ -144,16 +145,11 @@
   let displayValue = 'none';
 
   function disableNote() {
-    displayValue = 'none';
+    noteActive = false;
   }
   function displayNote() {
-    displayValue = 'flex';
+    noteActive = true;
   }
-
-  function typeNote() {
-    displayValue = displayValue !== 'none' ? 'none' : 'flex';
-  }
-
   function getDate() {
     let today = new Date();
     return (
@@ -205,7 +201,7 @@
     </div>
   {:else}
     <p>Totally notes: {notes.length}</p>
-    <form style="--display-value: {displayValue}" bind:this={inputNote}>
+    <form class:activated={noteActive} bind:this={inputNote}>
       <input
         type="text"
         name="authorInput"
@@ -236,7 +232,7 @@
       </svg>
       <svg
         class="x-icon"
-        on:click={typeNote}
+        on:click={disableNote}
         xmlns="http://www.w3.org/2000/svg"
         width="16"
         height="16"
@@ -251,7 +247,7 @@
         />
       </svg>
     </form>
-    <button class="createNote" on:click={typeNote} disabled={formBtnDisable}>Create note</button>
+    <button class="createNote" on:click={displayNote} disabled={formBtnDisable}>Create note</button>
     <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
     <ul>
       {#each notes as note (note.id)}
@@ -283,7 +279,10 @@
     --textarea-color: gray;
   }
   form {
-    display: var(--display-value);
+    display: none;
+  }
+  .activated {
+      display: flex;
   }
   input {
     width: 100%;
