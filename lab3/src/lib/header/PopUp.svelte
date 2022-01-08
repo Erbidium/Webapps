@@ -1,9 +1,10 @@
 <script>
-  export let popUpMessage;
+  import { popUpMessage } from '../../store';
+  $: popUpMessage && setTimeout(() => ($popUpMessage = ''), 2000);
 </script>
 
 <p>
-  {popUpMessage}
+  {$popUpMessage}
 </p>
 
 <style>

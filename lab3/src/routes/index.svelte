@@ -13,6 +13,7 @@
   import { setClient, operationStore, subscription } from '@urql/svelte';
   import { Circle3 } from 'svelte-loading-spinners';
   import PopUp from '$lib/header/PopUp.svelte';
+  import { popUpMessage } from '../store';
 
   const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
@@ -103,19 +104,15 @@
     notes = data.notes;
   }
 
-  let popUpMessage;
-
   function errorHandle(errors) {
     stateReset();
     if (
       errors?.message === 'hasura cloud limit of 60 requests/minute exceeded'
     ) {
-      popUpMessage = 'Too many requests. Try later';
-      setTimeout(() => (popUpMessage = ''), 2000);
+      $popUpMessage = 'Too many requests. Try later';
       return true;
     }
-    popUpMessage = `Server Error ${errors?.message ?? ''}`;
-    setTimeout(() => (popUpMessage = ''), 2000);
+    $popUpMessage = `Server Error ${errors?.message ?? ''}`;
     return true;
   }
 
@@ -174,9 +171,7 @@
   }
   function createNote() {
     if (name.value.length < 3 || noteText.value.length < 10) {
-      popUpMessage =
-        'Name should have at least 3 symbols and note should have at least 10 symbols';
-      setTimeout(() => (popUpMessage = ''), 4000);
+      $popUpMessage = 'Name should have at least 3 symbols and note should have at least 10 symbols';
       return;
     }
     let date = getDate();
@@ -208,8 +203,8 @@
   <title>Home</title>
 </svelte:head>
 <div>
-  {#if popUpMessage}
-    <PopUp {popUpMessage} />
+  {#if $popUpMessage}
+    <PopUp/>
   {/if}
   {#if errorOccured}
     <p class="error-text">"Sorry! Error occurred"</p>
