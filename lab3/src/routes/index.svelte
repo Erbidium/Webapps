@@ -185,18 +185,20 @@
 <svelte:head>
   <title>Home</title>
 </svelte:head>
-<div>
-  {#if $popUpMessage}
-    <PopUp/>
-  {/if}
-  {#if errorOccured}
-    <p class="error-text">"Sorry! Error occurred"</p>
-  {:else if !notes || showSpinnerNotes}
+
+{#if $popUpMessage}
+  <PopUp/>
+{/if}
+{#if errorOccured}
+  <p class="error-text">"Sorry! Error occurred"</p>
+{:else}
+  {#if !notes || showSpinnerNotes}
     <div class="spinner-wrap">
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
-  {:else}
-    <p>Totally notes: {notes.length}</p>
+  {/if}
+  <div class:notVisible={showSpinnerNotes}>
+    <p>Totally notes: {notes?.length ?? 0}</p>
     <form class:activated={noteActive}>
       <input
         type="text"
@@ -247,7 +249,7 @@
     <button class="createNote" on:click={displayNote} disabled={formBtnDisable}>Create note</button>
     <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
     <ul>
-      {#each notes as note (note.id)}
+      {#each notes ?? [] as note (note.id)}
         <li>
           <a href="#" class="note">
             <h2><strong>Note</strong></h2>
@@ -266,9 +268,8 @@
         </li>
       {/each}
     </ul>
-  {/if}
-</div>
-
+  </div>
+{/if}
 <style>
   :root {
     --error-color: red;
@@ -303,6 +304,13 @@
     display: flex;
     justify-content: center;
     vertical-align: center;
+    position: fixed;
+    width:100%;
+    height: 100%;
+    z-index: 2;
+  }
+  .notVisible {
+    visibility: hidden;
   }
   .error-text {
     color: var(--error-color);
