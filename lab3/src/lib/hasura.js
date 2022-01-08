@@ -43,8 +43,8 @@ const operationsDoc = `
     	}
     }
   }
-  mutation createNote($date: date = "", $author: String = "", $text: String = "") {
-    insert_notes(objects: {author: $author, date: $date, text: $text}){
+  mutation createNote($author: String = "", $text: String = "") {
+    insert_notes(objects: {author: $author, text: $text}){
       returning {
 				author
 				date
