@@ -71,10 +71,8 @@
     formBtnDisable = true;
     disableNote();
     const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
-
     if (errors) {
-      console.error(errors);
-      errorHandle(errors);
+      throw errors;
     }
     notes = data.notes;
   }
@@ -83,9 +81,7 @@
     errorOccured = false;
     const { errors, data } = await doQuery('getDataQuery');
     if (errors) {
-      console.error(errors);
-      errorOccured = true;
-      errorHandle(errors);
+      throw errors;
     }
     notes = data.notes;
   }
@@ -96,10 +92,8 @@
     disableNote();
 
     const { errors, data } = await doQuery('deleteAllMutation');
-
     if (errors) {
-      console.error(errors);
-      errorHandle(errors);
+      throw errors;
     }
     notes = data.notes;
   }
@@ -127,9 +121,7 @@
       text: text,
     });
     if (errors) {
-      errorHandle(errors);
-      console.error(errors);
-      displayNote();
+      throw errors;
     }
     notes = data.notes;
   }
