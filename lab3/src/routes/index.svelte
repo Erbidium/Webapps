@@ -278,6 +278,9 @@
     box-sizing: border-box;
     height: 30px;
   }
+  input:focus{
+      outline: none;
+  }
   textarea {
     background-color: var(--bg-color);
     border: none;
