@@ -267,6 +267,9 @@
     box-sizing: border-box;
     height: 30px;
   }
+  input:focus{
+      outline: none;
+  }
   textarea {
     background-color: var(--bg-color);
     border: none;
@@ -290,6 +293,6 @@
     color: var(--error-color);
   }
   .no-hover{
-      pointer-events: none;
+    pointer-events: none;
   }
 </style>
