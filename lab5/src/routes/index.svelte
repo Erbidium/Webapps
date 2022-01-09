@@ -23,11 +23,10 @@
     formBtnDisable = true;
     disableNote();
     const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
-
     if (errors) {
       throw errors;
     }
-    await startFetchMyQuery();
+    notes.splice(notes.findIndex(note => note.id === _eq), 1);
   }
 
   async function startFetchMyQuery() {
@@ -45,11 +44,10 @@
     disableNote();
 
     const { errors, data } = await doQuery('deleteAllMutation');
-
     if (errors) {
       throw errors;
     }
-    await startFetchMyQuery();
+    notes = {};
   }
 
   token.subscribe(async(tokenValue) => {
@@ -87,7 +85,8 @@
     if (errors) {
       throw errors;
     }
-    await startFetchMyQuery();
+    note = {};
+    notes.push(data.insert_notes.returning[0]);
   }
 
   function onDelete(event) {
@@ -121,7 +120,6 @@
         errorHandle();
         displayNote();
       }).finally(stateReset);
-    note = {};
   }
 
   function deleteAllNotes() {
