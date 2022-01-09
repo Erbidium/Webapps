@@ -49,23 +49,18 @@
     if (tokenValue!=='') {
       startFetchMyQuery()
         .catch(errorHandle)
-        .finally(() => {
-          formBtnDisable = false;
-          showSpinnerNotes = false;
-        });
+        .finally(stateReset);
     }
   })
 
   function errorHandle(errors) {
-    stateReset();
     if (
       errors?.message === 'hasura cloud limit of 60 requests/minute exceeded'
     ) {
       $popUpMessage = 'Too many requests. Try later';
-      return true;
+      return;
     }
     $popUpMessage = `Server Error ${errors?.message ?? ''}`;
-    return true;
   }
 
   async function startExecuteCreateNote(name, text) {
@@ -109,9 +104,8 @@
       return;
     }
     startExecuteCreateNote(note.name, note.text)
-      .catch(() => {
-        errorHandle();
-      }).finally(stateReset);
+      .catch(errorHandle)
+      .finally(stateReset);
   }
 
   function deleteAllNotes() {
