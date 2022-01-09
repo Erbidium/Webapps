@@ -56,23 +56,26 @@
   let notes;
   let noteActive = false;
 
-  function stateReset() {
-    showSpinnerNotes = formBtnDisable = false;
+  function spinnerReset() {
+    showSpinnerNotes = false;
   }
 
   const handleSubscription = (messages = [], dataNotes) => {
     notes = dataNotes.notes;
-    stateReset();
+    spinnerReset();
     return [dataNotes.notes, ...messages];
   };
 
   async function startExecuteDeleteNote(_eq) {
-    showSpinnerNotes = formBtnDisable = true;
+    showSpinnerNotes = true;
     const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
     if (errors) {
       throw errors;
     }
-    notes.splice(notes.findIndex(note => note.id === _eq), 1);
+    let index = notes.findIndex(note => note.id === _eq);
+    if (index !== -1) {
+      notes = [...notes.slice(0, index), ...notes.slice(index + 1)];
+    }
   }
 
   async function startFetchMyQuery() {
@@ -85,7 +88,7 @@
   }
 
   async function startExecuteDeleteAllMutation() {
-    showSpinnerNotes = formBtnDisable = true;
+    showSpinnerNotes = true;
     const { errors, data } = await doQuery('deleteAllMutation');
     if (errors) {
       throw errors;
@@ -104,7 +107,7 @@
   }
 
   async function startExecuteCreateNote(author, text) {
-    formBtnDisable = showSpinnerNotes = true;
+    showSpinnerNotes = true;
     const { errors, data } = await doQuery('createNote', {
       author: author,
       text: text,
@@ -112,52 +115,53 @@
     if (errors) {
       throw errors;
     }
-    notes.unshift(data.insert_notes.returning[0]);
+    let newNote = data.insert_notes.returning[0];
+    if (notes.findIndex(note => note.id === newNote.id) === -1) {
+      notes = [newNote, ...notes];
+    }
     disableNote();
   }
 
   function onDelete(event) {
     startExecuteDeleteNote(event.target.dataset.id)
       .catch(errorHandle)
-      .finally(stateReset);
+      .finally(spinnerReset);
   }
 
-  let note = {};
-
-  let formBtnDisable = false;
+  let noteData = {};
 
   let showSpinnerNotes = false;
 
   let errorOccured = false;
 
   function disableNote() {
-    noteActive = formBtnDisable = false;
-    note = {};
+    noteActive = false;
+    noteData = {};
   }
   function displayNote() {
-    noteActive = formBtnDisable = true;
+    noteActive = true;
   }
   function createNote() {
-    if ((note.name?.length ?? 0) < 3 || (note.text?.length ?? 0) < 10) {
+    if ((noteData.name?.length ?? 0) < 3 || (noteData.text?.length ?? 0) < 10) {
       $popUpMessage = 'Name should have at least 3 symbols and note should have at least 10 symbols';
       return;
     }
-    startExecuteCreateNote(note.name, note.text)
+    startExecuteCreateNote(noteData.name, noteData.text)
       .catch(errorHandle)
-      .finally(stateReset);
+      .finally(spinnerReset);
   }
 
   function deleteAllNotes() {
     startExecuteDeleteAllMutation()
       .catch(errorHandle)
-      .finally(stateReset);
+      .finally(spinnerReset);
   }
 
   startFetchMyQuery()
     .catch(() => {
       errorHandle();
       errorOccured = true;
-    }).finally(stateReset);
+    }).finally(spinnerReset);
   subscription(messages, handleSubscription);
 </script>
 
@@ -184,13 +188,13 @@
         name="authorInput"
         maxlength="15"
         placeholder="Input your name"
-        bind:value={note.name}
+        bind:value={noteData.name}
       />
       <textarea
         name="noteText"
         placeholder="Write note..."
         maxlength="60"
-        bind:value={note.text}
+        bind:value={noteData.text}
       />
       <svg
         class="check-icon"
@@ -225,12 +229,12 @@
         />
       </svg>
     </form>
-    <button class="createNote" on:click={displayNote} class:no-hover={formBtnDisable} disabled={formBtnDisable} >Create note</button>
-    <button class="btnDeleteAll" on:click={deleteAllNotes} class:no-hover={formBtnDisable} disabled={formBtnDisable}>Delete all</button>
+    <button class="createNote" on:click={displayNote} class:no-hover={noteActive} disabled={noteActive} >Create note</button>
+    <button class="btnDeleteAll" on:click={deleteAllNotes} class:no-hover={noteActive} disabled={noteActive}>Delete all</button>
     <ul>
       {#each (notes ?? []) as note (note.id)}
         <li>
-          <a href="#" class="note" class:no-hover={formBtnDisable}>
+          <a href="#" class="note" class:no-hover={noteActive}>
             <h2><strong>Note</strong></h2>
             <p><strong>Author: {note.author}</strong></p>
             <p><strong>{note.text}</strong></p>
@@ -240,8 +244,8 @@
                 class="btnDeleteSpecific"
                 data-id={note.id}
                 on:click={onDelete}
-                class:no-hover={formBtnDisable}
-                disabled={formBtnDisable}>X</button
+                class:no-hover={noteActive}
+                disabled={noteActive}>X</button
               >
             </div>
           </a>
