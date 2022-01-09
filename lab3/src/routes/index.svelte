@@ -144,7 +144,7 @@
     noteActive = formBtnDisable = true;
   }
   function createNote() {
-    if (note.name.length < 3 || note.text.length < 10) {
+    if ((note.name?.length ?? 0) < 3 || (note.text?.length ?? 0) < 10) {
       $popUpMessage = 'Name should have at least 3 symbols and note should have at least 10 symbols';
       return;
     }
