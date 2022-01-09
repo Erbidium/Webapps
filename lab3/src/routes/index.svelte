@@ -79,6 +79,7 @@
   }
 
   async function startFetchMyQuery() {
+    showSpinnerNotes = true;
     errorOccured = false;
     const { errors, data } = await doQuery('getDataQuery');
     if (errors) {
@@ -175,12 +176,12 @@
 {#if errorOccured}
   <p class="error-text">"Sorry! Error occurred"</p>
 {:else}
-  {#if !notes || showSpinnerNotes}
+  {#if showSpinnerNotes}
     <div class="spinner-wrap">
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
   {/if}
-  <div class:notVisible={!notes || showSpinnerNotes}>
+  <div class:notVisible={showSpinnerNotes}>
     <p>Totally notes: {notes?.length ?? 0}</p>
     <form class:activated={noteActive}>
       <input
