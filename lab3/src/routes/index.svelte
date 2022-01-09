@@ -141,10 +141,10 @@
   let errorOccured = false;
 
   function disableNote() {
-    noteActive = false;
+    noteActive = formBtnDisable = false;
   }
   function displayNote() {
-    noteActive = true;
+    noteActive = formBtnDisable = true;
   }
   function createNote() {
     if (note.name.length < 3 || note.text.length < 10) {
@@ -238,12 +238,12 @@
         />
       </svg>
     </form>
-    <button class="createNote" on:click={displayNote} disabled={formBtnDisable}>Create note</button>
-    <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
+    <button class="createNote" on:click={displayNote} class:no-hover={formBtnDisable} disabled={formBtnDisable} >Create note</button>
+    <button class="btnDeleteAll" on:click={deleteAllNotes} class:no-hover={formBtnDisable} disabled={formBtnDisable}>Delete all</button>
     <ul>
       {#each (notes ?? []) as note (note.id)}
         <li>
-          <a href="#" class="note">
+          <a href="#" class="note" class:no-hover={formBtnDisable}>
             <h2><strong>Note</strong></h2>
             <p><strong>Author: {note.author}</strong></p>
             <p><strong>{note.text}</strong></p>
@@ -253,6 +253,7 @@
                 class="btnDeleteSpecific"
                 data-id={note.id}
                 on:click={onDelete}
+                class:no-hover={formBtnDisable}
                 disabled={formBtnDisable}>X</button
               >
             </div>
@@ -306,5 +307,8 @@
   }
   .error-text {
     color: var(--error-color);
+  }
+  .no-hover{
+      pointer-events: none;
   }
 </style>
