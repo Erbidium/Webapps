@@ -52,8 +52,10 @@
   token.subscribe(async(tokenValue) => {
     if (tokenValue!=='') {
       startFetchMyQuery()
-        .catch(errorHandle)
-        .finally(spinnerReset);
+        .catch(() => {
+          errorHandle();
+          errorOccured = true;
+        }).finally(spinnerReset);
     }
   })
 
