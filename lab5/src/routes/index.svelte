@@ -25,8 +25,7 @@
     const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
 
     if (errors) {
-      console.error(errors);
-      errorHandle(errors);
+      throw errors;
     }
     await startFetchMyQuery();
   }
@@ -35,9 +34,7 @@
     errorOccured = false;
     const { errors, data } = await doQuery('getDataQuery');
     if (errors) {
-      console.error(errors);
-      errorOccured = true;
-      errorHandle(errors);
+      throw errors;
     }
     notes = data.notes;
   }
@@ -50,14 +47,13 @@
     const { errors, data } = await doQuery('deleteAllMutation');
 
     if (errors) {
-      console.error(errors);
-      errorHandle(errors);
+      throw errors;
     }
     await startFetchMyQuery();
   }
 
   token.subscribe(async(tokenValue) => {
-    if(tokenValue!=='') {
+    if (tokenValue!=='') {
       startFetchMyQuery()
         .catch(errorHandle)
         .finally(() => {
@@ -89,9 +85,7 @@
       text: text
     });
     if (errors) {
-      errorHandle(errors);
-      console.error(errors);
-      displayNote();
+      throw errors;
     }
     await startFetchMyQuery();
   }
