@@ -91,8 +91,7 @@
   }
 
   function onDelete(event) {
-    const targetElement = event.target;
-    startExecuteDeleteNote(targetElement.id)
+    startExecuteDeleteNote(event.target.dataset.id)
       .catch(errorHandle)
       .finally(stateReset);
   }
@@ -186,14 +185,12 @@
       <form style="--display-value: {displayValue}" bind:this={inputNote}>
         <input
           type="text"
-          id="name-text"
           name="nameInput"
           maxlength="15"
           placeholder="Input note name"
           bind:this={name}
         />
         <textarea
-          id="note-text"
           placeholder="Write note..."
           maxlength="60"
           bind:this={noteText}
@@ -245,8 +242,8 @@
               <div class="buttonsZone">
                 <button
                   class="btnDeleteSpecific"
-                  id={note.id}
-                  on:click={event => onDelete(event)}
+                  data-id={note.id}
+                  on:click={onDelete}
                   disabled={formBtnDisable}>X</button
                 >
               </div>
