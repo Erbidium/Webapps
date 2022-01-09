@@ -154,25 +154,27 @@
 <svelte:head>
   <title>Home</title>
 </svelte:head>
-<div>
-  {#if $popUpMessage && !$offline}
-    <PopUp/>
-  {/if}
-  {#if $offline}
-    <p class="error-text">"No internet connection!"</p>
-  {:else if !authClient}
-    <div class="spinner-wrap">
-      <Circle3 size="60" unit="px" duration="1s" />
-    </div>
-  {:else if $isAuthenticated}
-    {#if errorOccured}
-      <p class="error-text">"Sorry! Error occurred"</p>
-    {:else if !notes  || showSpinnerNotes}
+
+{#if $popUpMessage && !$offline}
+  <PopUp/>
+{/if}
+{#if $offline}
+  <p class="error-text">"No internet connection!"</p>
+{:else if !authClient}
+  <div class="spinner-wrap">
+    <Circle3 size="60" unit="px" duration="1s" />
+  </div>
+{:else if $isAuthenticated}
+  {#if errorOccured}
+    <p class="error-text">"Sorry! Error occurred"</p>
+  {:else}
+    {#if !notes  || showSpinnerNotes}
       <div class="spinner-wrap">
         <Circle3 size="60" unit="px" duration="1s" />
       </div>
-    {:else}
-      <p>Totally notes: {notes.length}</p>
+    {/if}
+    <div class:notVisible={showSpinnerNotes}>
+      <p>Totally notes: {notes?.length ?? 0}</p>
       <form class:activated={noteActive}>
         <input
           type="text"
@@ -223,7 +225,7 @@
       <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
       <button class="btnLogOut" on:click={logout} disabled={formBtnDisable}>Log out</button>
       <ul>
-        {#each notes as note (note.id)}
+        {#each notes ?? [] as note (note.id)}
           <li>
             <a href="#" class="note">
               <h2><strong>Note</strong></h2>
@@ -242,12 +244,12 @@
           </li>
         {/each}
       </ul>
-    {/if}
-  {:else}
-    <p>You should login to use application</p>
-    <button class='btnLogIn' on:click={login}>Log in</button>
+    </div>
   {/if}
-</div>
+{:else}
+  <p>You should login to use application</p>
+  <button class='btnLogIn' on:click={login}>Log in</button>
+{/if}
 
 <style>
   :root {
@@ -283,6 +285,13 @@
     display: flex;
     justify-content: center;
     vertical-align: center;
+    position: fixed;
+    width:100%;
+    height: 100%;
+    z-index: 2;
+  }
+  .notVisible {
+    visibility: hidden;
   }
   .error-text {
     color: var(--error-color);
