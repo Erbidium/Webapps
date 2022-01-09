@@ -47,7 +47,7 @@
     if (errors) {
       throw errors;
     }
-    notes = {};
+    notes = [];
   }
 
   token.subscribe(async(tokenValue) => {
@@ -173,7 +173,7 @@
         <Circle3 size="60" unit="px" duration="1s" />
       </div>
     {/if}
-    <div class:notVisible={showSpinnerNotes}>
+    <div class:notVisible={!notes || showSpinnerNotes}>
       <p>Totally notes: {notes?.length ?? 0}</p>
       <form class:activated={noteActive}>
         <input
@@ -225,7 +225,7 @@
       <button class="btnDeleteAll" on:click={deleteAllNotes} disabled={formBtnDisable}>Delete all</button>
       <button class="btnLogOut" on:click={logout} disabled={formBtnDisable}>Log out</button>
       <ul>
-        {#each notes ?? [] as note (note.id)}
+        {#each (notes ?? []) as note (note.id)}
           <li>
             <a href="#" class="note">
               <h2><strong>Note</strong></h2>
