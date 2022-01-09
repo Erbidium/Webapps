@@ -73,11 +73,9 @@
       errors?.message === 'hasura cloud limit of 60 requests/minute exceeded'
     ) {
       $popUpMessage = 'Too many requests. Try later';
-      setTimeout(() => ($popUpMessage = ''), 2000);
       return true;
     }
     $popUpMessage = `Server Error ${errors?.message ?? ''}`;
-    setTimeout(() => ($popUpMessage = ''), 2000);
     return true;
   }
 
@@ -130,7 +128,6 @@
   function createNote() {
     if (name.value.length < 3 || noteText.value.length < 10) {
       $popUpMessage = 'Name should have at least 3 symbols and note should have at least 10 symbols';
-      setTimeout(() => ($popUpMessage = ''), 4000);
       return;
     }
     startExecuteCreateNote(name.value, noteText.value)

@@ -1,5 +1,6 @@
 <script>
   import { popUpMessage } from '../../store';
+  $: popUpMessage && setTimeout(() => ($popUpMessage = ''), 2000);
 </script>
 
 <p>
