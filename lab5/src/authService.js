@@ -22,7 +22,6 @@ async function loginWithPopup(client, options) {
 	} catch (e) {
 		console.error(e);
 		popUpMessage.set(`Error. ${e?.message ?? ''}`);
-		setTimeout(() => popUpMessage.set(''), 2000);
 	} finally {
 		popupOpen.set(false);
 	}

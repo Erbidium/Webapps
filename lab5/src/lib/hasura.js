@@ -19,28 +19,42 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
 const operationsDoc = `
   mutation deleteAllMutation {
     delete_notes(where: {}) {
-      affected_rows
+      returning {
+				date
+				id
+				name
+				text
+			}
     }
   }
   query getDataQuery {
     notes(order_by: {date: desc, time: desc}) {
-      text
-			userId
+      date
 			id
-			date
 			name
+			text
     }
   }
   mutation deleteNote($_eq: uuid) {
     delete_notes(where: {id: {_eq: $_eq}}) {
-      affected_rows
+      returning {
+				date
+				id
+				name
+				text
+			}
     }
   }
   mutation createNote($name: String = "", $text: String = "") {
-  insert_notes(objects: {name: $name, text: $text}) {
-    affected_rows
-  }
-}
+		insert_notes(objects: {name: $name, text: $text}) {
+			returning {
+				date
+				id
+				name
+				text
+			}
+		}
+	}
 `;
 
 export function doQuery(operationName, variables) {
