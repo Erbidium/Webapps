@@ -70,7 +70,7 @@
     showSpinnerNotes = true;
     const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
     if (errors) {
-      throw errors;
+      throw errors[0];
     }
     let index = notes.findIndex(note => note.id === _eq);
     if (index !== -1) {
@@ -83,7 +83,7 @@
     errorOccured = false;
     const { errors, data } = await doQuery('getDataQuery');
     if (errors) {
-      throw errors;
+      throw errors[0];
     }
     notes = data.notes;
   }
@@ -92,19 +92,19 @@
     showSpinnerNotes = true;
     const { errors, data } = await doQuery('deleteAllMutation');
     if (errors) {
-      throw errors;
+      throw errors[0];
     }
     notes = [];
   }
 
-  function errorHandle(errors) {
+  function errorHandle(error) {
     if (
-      errors?.message === 'hasura cloud limit of 60 requests/minute exceeded'
+      error?.message === 'hasura cloud limit of 60 requests/minute exceeded'
     ) {
       $popUpMessage = 'Too many requests. Try later';
       return;
     }
-    $popUpMessage = `Server Error ${errors?.message ?? ''}`;
+    $popUpMessage = `Server Error ${error?.message ?? ''}`;
   }
 
   async function startExecuteCreateNote(author, text) {
@@ -114,7 +114,7 @@
       text: text,
     });
     if (errors) {
-      throw errors;
+      throw errors[0];
     }
     let newNote = data.insert_notes.returning[0];
     if (notes.findIndex(note => note.id === newNote.id) === -1) {
