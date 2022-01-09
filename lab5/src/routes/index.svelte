@@ -19,8 +19,7 @@
   }
 
   async function startExecuteDeleteNote(_eq) {
-    showSpinnerNotes = true;
-    formBtnDisable = true;
+    showSpinnerNotes = formBtnDisable = true;
     disableNote();
     const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
     if (errors) {
@@ -39,8 +38,7 @@
   }
 
   async function startExecuteDeleteAllMutation() {
-    showSpinnerNotes = true;
-    formBtnDisable = true;
+    showSpinnerNotes = formBtnDisable = true;
     disableNote();
 
     const { errors, data } = await doQuery('deleteAllMutation');
@@ -74,8 +72,7 @@
   }
 
   async function startExecuteCreateNote(name, text) {
-    formBtnDisable = true;
-    showSpinnerNotes = true;
+    formBtnDisable = showSpinnerNotes = true;
     disableNote();
 
     const { errors, data } = await doQuery('createNote', {
