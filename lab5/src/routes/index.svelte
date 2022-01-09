@@ -205,13 +205,12 @@
           bind:this={noteText}
         />
         <svg
-          id="check-icon"
+          class="check-icon"
           on:click={createNote}
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
           fill="currentColor"
-          class="bi bi-check-circle"
           viewBox="0 0 16 16"
         >
           <path
@@ -222,13 +221,12 @@
           />
         </svg>
         <svg
-          id="x-icon"
+          class="x-icon"
           on:click={typeNote}
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
           fill="currentColor"
-          class="bi bi-x-circle"
           viewBox="0 0 16 16"
         >
           <path
