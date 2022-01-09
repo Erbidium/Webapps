@@ -166,7 +166,7 @@
         <Circle3 size="60" unit="px" duration="1s" />
       </div>
     {/if}
-    <div class:notVisible={showSpinnerNotes}>
+    <div class:not-visible={showSpinnerNotes}>
       <p>Totally notes: {notes?.length ?? 0}</p>
       <form class:activated={noteActive}>
         <input
@@ -214,9 +214,9 @@
           />
         </svg>
       </form>
-      <button class="createNote" on:click={displayNote} class:no-hover={noteActive} disabled={noteActive}>Create note</button>
-      <button class="btnDeleteAll" on:click={deleteAllNotes} class:no-hover={noteActive} disabled={noteActive}>Delete all</button>
-      <button class="btnLogOut" on:click={logout} class:no-hover={noteActive} disabled={noteActive}>Log out</button>
+      <button class="create-note" on:click={displayNote} class:no-hover={noteActive} disabled={noteActive}>Create note</button>
+      <button class="btn-delete-all" on:click={deleteAllNotes} class:no-hover={noteActive} disabled={noteActive}>Delete all</button>
+      <button class="btn-log-out" on:click={logout} class:no-hover={noteActive} disabled={noteActive}>Log out</button>
       <ul>
         {#each (notes ?? []) as note (note.id)}
           <li>
@@ -225,9 +225,9 @@
               <p><strong>Name: {note.name}</strong></p>
               <p><strong>{note.text}</strong></p>
               <p><strong>Date: {note.date}</strong></p>
-              <div class="buttonsZone">
+              <div class="buttons-zone">
                 <button
-                  class="btnDeleteSpecific"
+                  class="btn-delete-specific"
                   data-id={note.id}
                   on:click={onDelete}
                   class:no-hover={noteActive}
@@ -242,7 +242,7 @@
   {/if}
 {:else}
   <p>You should login to use application</p>
-  <button class='btnLogIn' on:click={login}>Log in</button>
+  <button class="btn-log-in" on:click={login}>Log in</button>
 {/if}
 
 <style>
@@ -287,7 +287,7 @@
     height: 100%;
     z-index: 2;
   }
-  .notVisible {
+  .not-visible {
     visibility: hidden;
   }
   .error-text {
