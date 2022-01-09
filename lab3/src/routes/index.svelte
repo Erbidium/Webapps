@@ -107,7 +107,6 @@
 
   async function startExecuteCreateNote(author, text) {
     formBtnDisable = showSpinnerNotes = true;
-    disableNote();
     const { errors, data } = await doQuery('createNote', {
       author: author,
       text: text,
@@ -115,8 +114,8 @@
     if (errors) {
       throw errors;
     }
-    note = {};
     notes.unshift(data.insert_notes.returning[0]);
+    disableNote();
   }
 
   function onDelete(event) {
@@ -135,6 +134,7 @@
 
   function disableNote() {
     noteActive = formBtnDisable = false;
+    note = {};
   }
   function displayNote() {
     noteActive = formBtnDisable = true;
@@ -147,7 +147,6 @@
     startExecuteCreateNote(note.name, note.text)
       .catch(() => {
         errorHandle();
-        displayNote();
       }).finally(stateReset);
   }
 
