@@ -15,8 +15,7 @@
   let noteActive = false;
 
   function stateReset() {
-    showSpinnerNotes = false;
-    formBtnDisable = false;
+    showSpinnerNotes = formBtnDisable = false;
   }
 
   async function startExecuteDeleteNote(_eq) {
