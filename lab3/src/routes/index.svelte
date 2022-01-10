@@ -181,7 +181,7 @@
       <Circle3 size="60" unit="px" duration="1s" />
     </div>
   {/if}
-  <div class:notVisible={showSpinnerNotes}>
+  <div class:not-visible={showSpinnerNotes}>
     <p>Totally notes: {notes?.length ?? 0}</p>
     <form class:activated={noteActive}>
       <input
@@ -230,8 +230,8 @@
         />
       </svg>
     </form>
-    <button class="createNote" on:click={displayNote} class:no-hover={noteActive} disabled={noteActive} >Create note</button>
-    <button class="btnDeleteAll" on:click={deleteAllNotes} class:no-hover={noteActive} disabled={noteActive}>Delete all</button>
+    <button class="create-note" on:click={displayNote} class:no-hover={noteActive} disabled={noteActive} >Create note</button>
+    <button class="btn-delete-all" on:click={deleteAllNotes} class:no-hover={noteActive} disabled={noteActive}>Delete all</button>
     <ul>
       {#each (notes ?? []) as note (note.id)}
         <li>
@@ -240,9 +240,9 @@
             <p><strong>Author: {note.author}</strong></p>
             <p><strong>{note.text}</strong></p>
             <p><strong>Date: {note.date}</strong></p>
-            <div class="buttonsZone">
+            <div class="buttons-zone">
               <button
-                class="btnDeleteSpecific"
+                class="btn-delete-specific"
                 data-id={note.id}
                 on:click={onDelete}
                 class:no-hover={noteActive}
@@ -297,7 +297,7 @@
     height: 100%;
     z-index: 2;
   }
-  .notVisible {
+  .not-visible {
     visibility: hidden;
   }
   .error-text {

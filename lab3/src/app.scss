@@ -209,7 +209,7 @@ button {
   margin: 2px;
 }
 
-.createNote {
+.create-note {
   background-color: Green;
   display: inline-block;
   width: 6em;
@@ -217,7 +217,7 @@ button {
   text-align: center;
 }
 
-.btnDeleteAll {
+.btn-delete-all {
   background-color: Crimson;
   display: inline-block;
   width: 6em;
@@ -225,7 +225,7 @@ button {
   text-align: center;
 }
 
-.btnDeleteSpecific {
+.btn-delete-specific {
   background-color: Crimson;
 }
 
@@ -233,7 +233,7 @@ button:hover {
   transform: scale(1.1);
 }
 
-.buttonsZone {
+.buttons-zone {
   display: flex;
   justify-content: right;
 }
