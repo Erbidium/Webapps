@@ -8,12 +8,12 @@
   import { onMount } from 'svelte';
   import PopUp from '$lib/header/PopUp.svelte';
   import auth from '../authService';
-  import { isAuthenticated, token, offline, popUpMessage } from '../store';
+  import { isAuthenticated, token, popUpMessage } from '../store';
 
 
   let notes;
   let noteActive = false;
-
+  let offline = false;
   function spinnerReset() {
     showSpinnerNotes = false;
   }
@@ -136,10 +136,10 @@
     const authorizationToken = await authClient.getIdTokenClaims();
     $token = authorizationToken?.__raw ?? '';
     window.onoffline = () => {
-      offline.set(true);
+      offline = true;
     };
     window.ononline = () => {
-      offline.set(false);
+      offline = false;
     };
   });
 
@@ -156,10 +156,10 @@
   <title>Home</title>
 </svelte:head>
 
-{#if $popUpMessage && !$offline}
+{#if $popUpMessage && !offline}
   <PopUp/>
 {/if}
-{#if $offline}
+{#if offline}
   <p class="error-text">"No internet connection!"</p>
 {:else if !authClient}
   <div class="spinner-wrap">
