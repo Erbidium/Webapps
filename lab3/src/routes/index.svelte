@@ -66,11 +66,15 @@
     return [dataNotes.notes, ...messages];
   };
 
+  function concatErrorMessages(errors) {
+    return errors.map((error) => error?.message ?? '').join();
+  }
+
   async function startExecuteDeleteNote(_eq) {
     showSpinnerNotes = true;
     const { errors, data } = await doQuery('deleteNote', { _eq: _eq });
     if (errors) {
-      throw errors[0];
+      throw errors;
     }
     let index = notes.findIndex(note => note.id === _eq);
     if (index !== -1) {
@@ -83,7 +87,7 @@
     errorOccured = false;
     const { errors, data } = await doQuery('getDataQuery');
     if (errors) {
-      throw errors[0];
+      throw errors;
     }
     notes = data.notes;
   }
@@ -92,12 +96,16 @@
     showSpinnerNotes = true;
     const { errors, data } = await doQuery('deleteAllMutation');
     if (errors) {
-      throw errors[0];
+      throw errors;
     }
     notes = [];
   }
 
   function errorHandle(error) {
+    if(Array.isArray(error)) {
+      $popUpMessage = `Server Error ${concatErrorMessages(error)}`;
+      return;
+    }
     if (
       error?.message === 'hasura cloud limit of 60 requests/minute exceeded'
     ) {
@@ -114,7 +122,7 @@
       text: text,
     });
     if (errors) {
-      throw errors[0];
+      throw errors;
     }
     let newNote = data.insert_notes.returning[0];
     if (notes.findIndex(note => note.id === newNote.id) === -1) {
@@ -159,8 +167,8 @@
   }
 
   startFetchMyQuery()
-    .catch(() => {
-      errorHandle();
+    .catch((error) => {
+      errorHandle(error);
       errorOccured = true;
     }).finally(spinnerReset);
   subscription(messages, handleSubscription);
