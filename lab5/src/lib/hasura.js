@@ -28,7 +28,7 @@ const operationsDoc = `
     }
   }
   query getDataQuery {
-    notes(order_by: {date: desc, time: desc}) {
+    notes(order_by: [{date: desc}, {time: desc}]) {
       date
 			id
 			name
