@@ -42,13 +42,13 @@
 
   const messages = operationStore(`
     subscription MySubscription {
-    notes(order_by: {date: desc, time: desc}) {
-      author
-      date
-      id
-      text
+      notes(order_by: [{date: desc}, {time: desc}]) {
+        author
+        date
+        id
+        text
+      }
     }
-  }
   `);
 
   setClient(client);
