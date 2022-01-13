@@ -86,8 +86,8 @@
     if (errors) {
       throw errors;
     }
-    let newNote = data.insert_notes.returning[0];
-    if (notes.findIndex(note => note.id === newNote.id) === -1) {
+    let newNote = data?.insert_notes?.returning?.[0];
+    if (newNote?.id && notes.findIndex(note => note.id === newNote.id) === -1) {
       notes = [newNote, ...notes];
     }
     disableNote();
